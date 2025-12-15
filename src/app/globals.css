@@ -12,7 +12,7 @@
 }
 
 .container {
-  @apply max-w-[1200px] px-2 md:px-3 xl:px-4 mx-auto;
+  @apply max-w-7xl px-2 md:px-3 xl:px-4 mx-auto;
 }
 
 body {

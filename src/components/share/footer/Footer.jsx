@@ -1,143 +1,152 @@
-// components/Footer.js
-import { RiSendPlaneFill } from "react-icons/ri";
-import { IoCallOutline } from "react-icons/io5";
-import { MdOutlineMailOutline } from "react-icons/md";
-import Image from "next/image";
+import React from "react";
 import Link from "next/link";
-import { categoryData } from "@/utils/db/db_category";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+  FaYoutube,
+} from "react-icons/fa";
+import Image from "next/image";
+import { blogPosts } from "@/utils/db/blogs_data";
 
-export default function Footer() {
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-white py-2">
-      <div className="container mx-auto px-4  sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-          {/* Logo and About */}
-          <div>
-            <div className="mb-4">
-              <Image
-              width={150}
-              height={150}
-                src="https://falaqfood.com/wp-content/uploads/2023/08/cropped-logo-1-1-2048x721.png" // Replace with your logo path
-                alt="Falaq Food Logo"
-                className="h-14"
-              />
+    <footer className="bg-[#000000] text-white py-8">
+      <div className="">
+        {/* Main Footer Content */}
+        <div className="container">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+            <div>
+               <div className="flex space-x-2">
+                  <Image
+                    src={
+                      "https://mukitalillc.com/wp-content/uploads/2021/09/theonebrandstore.com-1-220x220.png"
+                    }
+                    height={150}
+                    width={250}
+                    alt="pay"
+                  ></Image>
+                </div>
             </div>
-            <p className="text-sm text-black-muted">
-              Welcome to Falaq Food – where purity meets taste, and every bite
-              tells a story of authenticity and care.
-            </p>
-            <div className="mt-4 space-y-2">
-              <div className="text-sm text-black-muted flex items-center gap-3">
-                <RiSendPlaneFill className="text-[20px]" />
-                <span> Bosila Future Town, Mohammadpur, Dhaka-1207</span>
-              </div>
-              <div className="text-sm text-black-muted flex items-center gap-3">
-                <IoCallOutline className="text-[18px]" />
-                Phone: +8801617650797
-              </div>
-              <div className="text-sm text-black-muted flex items-center gap-3">
-                <MdOutlineMailOutline className="text-[18px]" />
-                Email: support@nexte.com
-              </div>
+            {/* RECENT POSTS Section */}
+            <div>
+              <h3 className="text-xl font-bold mb-6 pb-2 border-b-2 border-primary-base inline-block">
+                RECENT POSTS
+              </h3>
+              <ul className="space-y-4">
+                {blogPosts?.slice(0, 2)?.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      href="/blog/the-ultimate-guide-to-10-piece-stainless-steel-nail-clipper-sets"
+                      className="text-gray-300 hover:text-primary-base transition-colors duration-300 flex  gap-2 items-center"
+                    >
+                      <div>
+                        <Image
+                        className="rounded w-15 h-15"
+                          src={item?.image}
+                          height={80}
+                          width={80}
+                          alt="pay"
+                        ></Image>
+                      </div>
+                      <span className="flex-1">{item?.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
 
-          {/* Categories */}
-          <div>
-            <h3 className="text-lg font-medium uppercase text-gray-800 mb-4">
-              Categories
-            </h3>
-            <ul className="space-y-2">
-              {categoryData.map((item,index) => (
-                <li key={index}>
-                  <Link
-                    href={`/product-category/${item?.slug}`}
-                    className="text-sm text-black-muted hover:text-primary-base"
-                  >
-                    {item?.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* USEFUL LINKS Section */}
+            <div>
+              <h3 className="text-xl font-bold mb-6 pb-2 border-b-2 border-primary-base inline-block">
+                USEFUL LINKS
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "Contact Us",
+                  "About Us",
+                  "Our Disclaimer",
+                  "Privacy Policy",
+                  "Terms & Conditions",
+                ].map((item) => (
+                  <li key={item}>
+                    <Link
+                      href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                      className="text-gray-300 hover:text-primary-base transition-colors duration-300 flex items-center group"
+                    >
+                      <span className="transform -rotate-45 mr-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        →
+                      </span>
+                      <span>{item}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Our Stories */}
-          <div>
-            <h3 className="text-lg uppercase font-medium text-gray-800 mb-4">
-              Our Stories
-            </h3>
-            <ul className="space-y-2">
+            {/* HIGHLIGHTS Section */}
+            <div>
+              <h3 className="text-xl font-bold mb-6 pb-2 border-b-2 border-primary-base inline-block">
+                HIGHLIGHTS
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "Blog & Articles",
+                  "All Products",
+                  "Shipping Policy",
+                  "Packaging",
+                  "Return & Refund",
+                ].map((item) => (
+                  <li key={item}>
+                    <Link
+                      href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                      className="text-gray-300 hover:text-primary-base transition-colors duration-300 flex items-center group"
+                    >
+                      <span className="transform -rotate-45 mr-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        →
+                      </span>
+                      <span>{item}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
            
-                  <li >
-                    <Link
-                      href="/about-us"
-                      className="text-sm text-black-muted hover:text-primary-base"
-                    >
-                      About
-                    </Link>
-                  </li>
-                  <li >
-                    <Link
-                      href="/about-us#our_Journey"
-                      className="text-sm text-black-muted hover:text-primary-base"
-                    >
-                      Our Journey
-                    </Link>
-                  </li>
-                   <li >
-                    <Link
-                      href="/about-us#our_mission"
-                      className="text-sm text-black-muted hover:text-primary-base"
-                    >
-                      Our Mission
-                    </Link>
-                  </li>
-                  <li >
-                    <Link
-                      href="/blogs"
-                      className="text-sm text-black-muted hover:text-primary-base"
-                    >
-                      Blogs
-                    </Link>
-                  </li>
-              
-            </ul>
           </div>
+        </div>
+        {/* Copyright Section */}
+        <div className="border-t border-gray-800 pt-6">
+          <div className="container">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="text-center mb-4 md:mb-0">
+                <p className="text-gray-400">
+                  Based in USA • All Rights © {currentYear} Multi AI LLC
+                </p>
+              </div>
 
-          {/* Returns and Policies */}
-          <div>
-            <h3 className="text-lg uppercase font-medium text-gray-800 mb-4">
-              Returns and Policies
-            </h3>
-            <ul className="space-y-2">
-              {[
-                {name:"Privacy Policy",path:'privacy-policy'},
-                {name:"Returns",path:"returns"},
-                {name:"Terms And Conditions",path:"terms-and-conditions"},
-                {name:"Contact Us",path:"contact"},
-  
-               
-              ].map((item) => (
-                <li key={item}>
-                  <Link
-                    href={"/"+item?.path}
-                    className="text-sm text-black-muted hover:text-primary-base"
-                  >
-                    {item?.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+              {/* Payment Methods */}
+              <div className="flex items-center space-x-4">
+                <div className="flex space-x-2">
+                  <Image
+                    src={
+                      "https://mukitalillc.com/wp-content/themes/woodmart/images/payments.png"
+                    }
+                    height={150}
+                    width={250}
+                    alt="pay"
+                  ></Image>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      {/* copy right  */}
-      <div className="mt-8 border-t border-gray-200 pt-6 text-center">
-        <p className="text-sm text-black-muted">
-          Copyright © Falaq Food 2024 – All Rights Reserved | Trade License No.
-          TRADE/DNCC/097112/2022
-        </p>
-      </div>
     </footer>
   );
-}
+};
+
+export default Footer;

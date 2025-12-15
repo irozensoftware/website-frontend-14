@@ -1,59 +1,34 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { FaLeftLong, FaRightLong } from "react-icons/fa6";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import ProductCard from "@/components/common/ProductCard";
+import { products } from "@/utils/db/ProductDB";
 
 const tabs = ["NEW", "FEATURED", "TOP SELLERS"];
 
-const products = [
-  {
-    id: 1,
-    title: "Food Bowl Color Thick Legs...",
-    category: "Pet Supplies",
-    price: 8.71,
-    image: "/images/p1.png",
-  },
-  {
-    id: 2,
-    title: "Pet Hair Remover Mitt static...",
-    category: "Pet Supplies",
-    price: 13.37,
-    image: "/images/p2.png",
-  },
-  {
-    id: 3,
-    title: "12cm*7.5cm*3.5cm Bird Bath Tub",
-    category: "Pet Supplies",
-    price: 10.44,
-    image: "/images/p3.png",
-  },
-  {
-    id: 4,
-    title: "Dog Supplies Accessories Are For...",
-    category: "Pet Supplies",
-    price: 0.93,
-    image: "/images/p4.png",
-  },
-];
-
 export default function YouAlsoLike() {
   const [activeTab, setActiveTab] = useState("NEW");
+  const [activeIndex, setActiveIndex] = useState(null); // To manage hover state
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-14">
+    <section className="container py-14">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-4  border-b-2 border-gray-300">
         <div className="flex items-center gap-6">
-          <h2 className="text-xl font-semibold">YOU ALSO LIKE</h2>
-          <div className="flex gap-4 text-sm">
+          <h2 className="text-xl font-semibold relative pb-2">
+            YOU ALSO LIKE
+            {/* 20% blue border */}
+            <span className="absolute left-0 -bottom-px h-0.5 w-full bg-primary-base"></span>
+          </h2>
+          <div className=" hidden md:flex gap-4 text-sm">
             {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`pb-1 border-b-2 transition ${
+                className={`pb-1  font-medium  transition ${
                   activeTab === tab
-                    ? "border-primary-base text-primary-base"
+                    ? " text-primary-base"
                     : "border-transparent text-gray-500 hover:text-black"
                 }`}
               >
@@ -64,44 +39,39 @@ export default function YouAlsoLike() {
         </div>
 
         <div className="flex gap-2 text-gray-400">
-          <button className="hover:text-black">
-            <FaLeftLong size={22} />
+          <button className="hover:text-black cursor-pointer">
+            <BsChevronLeft size={22} />
           </button>
-          <button className="hover:text-black">
-            <FaRightLong size={22} />
+          <button className="hover:text-black cursor-pointer">
+            <BsChevronRight size={22} />
           </button>
         </div>
       </div>
-
+      <div className="md:hidden flex gap-4 text-sm">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`pb-1  font-medium  transition ${
+              activeTab === tab
+                ? " text-primary-base"
+                : "border-transparent text-gray-500 hover:text-black"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
       {/* Products */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-        {products.map((item) => (
-          <div key={item.id} className="group">
-            <div className="relative bg-gray-100 rounded-lg overflow-hidden">
-              <Image
-                src={item.image}
-                alt={item.title}
-                width={300}
-                height={300}
-                className="object-cover group-hover:scale-105 transition duration-300"
-              />
-            </div>
-
-            <div className="mt-4 text-center">
-              <h3 className="text-sm font-medium line-clamp-1">
-                {item.title}
-              </h3>
-              <p className="text-xs text-gray-500 mt-1">
-                {item.category}
-              </p>
-              <p className="text-primary-base font-semibold mt-2">
-                ${item.price}
-              </p>
-              <button className="mt-3 bg-primary-base text-white text-xs px-5 py-2 rounded-full hover:opacity-90">
-                ADD TO CART
-              </button>
-            </div>
-          </div>
+      <div className="grid grid-cols-2 mt-4 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {products.map((product, index) => (
+          <ProductCard
+            key={index}
+            product={product}
+            isActive={activeIndex === index} // Pass active state
+            onHover={() => setActiveIndex(index)}
+            onLeave={() => setActiveIndex(null)}
+          />
         ))}
       </div>
     </section>
