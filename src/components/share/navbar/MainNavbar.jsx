@@ -75,7 +75,7 @@ const MainNavbar = () => {
                   {selectedItems}
                 </span>
               </div>
-              <div
+              <Link href={'/cart'}
                 onClick={() => dispatch(toggleShopCardDrawer())}
                 className="relative hidden md:block cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
@@ -83,7 +83,7 @@ const MainNavbar = () => {
                 <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
                   {selectedItems}
                 </span>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

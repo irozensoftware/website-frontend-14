@@ -10,7 +10,7 @@ export const menuDB = [
     },
      {
         name:"Blog & Articles",
-        path:"/blogs"
+        path:"/blog"
     }
     ,
      {
