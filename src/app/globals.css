@@ -18,3 +18,7 @@
 body {
   background: #fff;
 }
+
+.global-input {
+  @apply focus:outline-primary-base w-full px-3 py-2 border border-gray-200 placeholder:text-sm text-black-base rounded-full mt-1;
+}
