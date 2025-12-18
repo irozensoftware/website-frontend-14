@@ -17,14 +17,14 @@ const Login = () => {
 
   return (
     <div>
-      <div className="bg-gray-100 flex py-7 justify-center flex-col items-center">
+      <div className="bg-black text-white flex py-7 justify-center flex-col items-center">
          <h1 className="text-3xl md:text-5xl mb-2">My account</h1>
       <p className="text-sm text-black-muted">
         Home / <strong>login</strong>
       </p>
       </div>
 
-      <div className="max-w-[1000px] mx-auto py-10">
+      <div className="max-w-250 mx-auto py-10">
          <div className="flex flex-col md:flex-row md:space-x-16 w-full max-w-4xl bg-white p-8 rounded">
         {/* Login Form */}
         <div className="flex-1 mb-8 md:mb-0">

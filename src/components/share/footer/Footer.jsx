@@ -20,16 +20,16 @@ const Footer = () => {
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
             <div>
-               <div className="flex space-x-2">
-                  <Image
-                    src={
-                      "https://mukitalillc.com/wp-content/uploads/2021/09/theonebrandstore.com-1-220x220.png"
-                    }
-                    height={150}
-                    width={250}
-                    alt="pay"
-                  ></Image>
-                </div>
+              <div className="flex space-x-2">
+                <Image
+                  src={
+                    "https://mukitalillc.com/wp-content/uploads/2021/09/theonebrandstore.com-1-220x220.png"
+                  }
+                  height={150}
+                  width={250}
+                  alt="pay"
+                ></Image>
+              </div>
             </div>
             {/* RECENT POSTS Section */}
             <div>
@@ -45,7 +45,7 @@ const Footer = () => {
                     >
                       <div>
                         <Image
-                        className="rounded w-15 h-15"
+                          className="rounded w-15 h-15"
                           src={item?.image}
                           height={80}
                           width={80}
@@ -66,21 +66,36 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 {[
-                  "Contact Us",
-                  "About Us",
-                  "Our Disclaimer",
-                  "Privacy Policy",
-                  "Terms & Conditions",
-                ].map((item) => (
-                  <li key={item}>
+                  {
+                    name: "Contact Us",
+                    path: "contact-us",
+                  },
+                  {
+                    name: "About Us",
+                    path: "about-us",
+                  },
+                  {
+                    name: "Our Disclaimer",
+                    path: "our-disclamier",
+                  },
+                  {
+                    name: "Privacy Policy",
+                    path: "perivacy-policy",
+                  },
+                  {
+                    name: "Terms-Conditions",
+                    path: "terms-conditions",
+                  },
+                ].map((item, index) => (
+                  <li key={index}>
                     <Link
-                      href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/${item?.path}`}
                       className="text-gray-300 hover:text-primary-base transition-colors duration-300 flex items-center group"
                     >
                       <span className="transform -rotate-45 mr-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         →
                       </span>
-                      <span>{item}</span>
+                      <span>{item?.name}</span>
                     </Link>
                   </li>
                 ))}
@@ -94,28 +109,41 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 {[
-                  "Blog & Articles",
-                  "All Products",
-                  "Shipping Policy",
-                  "Packaging",
-                  "Return & Refund",
-                ].map((item) => (
-                  <li key={item}>
+                  {
+                    name: "Blog & Articles",
+                    path: "blogs",
+                  },
+                  {
+                    name: "All Products",
+                    path: "shop",
+                  },
+                  {
+                    name: "Shipping Policy",
+                    path: "shipping-policy",
+                  },
+                  {
+                    name: "Packaging",
+                    path: "packaging",
+                  },
+                  {
+                    name: "Return & Refund",
+                    path: "return-and-refund",
+                  },
+                ].map((item,index) => (
+                  <li key={index}>
                     <Link
-                      href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/${item.path}`}
                       className="text-gray-300 hover:text-primary-base transition-colors duration-300 flex items-center group"
                     >
                       <span className="transform -rotate-45 mr-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         →
                       </span>
-                      <span>{item}</span>
+                      <span>{item?.name}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-
-           
           </div>
         </div>
         {/* Copyright Section */}

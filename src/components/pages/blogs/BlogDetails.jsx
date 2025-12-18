@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   FaCalendarAlt,
   FaComment,
-  FaFolder,
   FaShareAlt,
   FaUser,
   FaBookmark,
