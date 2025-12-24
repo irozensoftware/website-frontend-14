@@ -1,5 +1,6 @@
 "use client"
 import ProductCardShop from "@/components/common/ProductCardShop";
+import { useGetProductByCategoryWiseQuery } from "@/redux/api/commonApi";
 import { products } from "@/utils/db/ProductDB";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -10,8 +11,13 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { TfiLayoutGrid4Alt } from "react-icons/tfi";
 
 const ProductCategory = ({ slug }) => {
+  const [searchValue, setSearchValue] = useState({
+    slug: slug,
+  });
+  const {data:productData}=useGetProductByCategoryWiseQuery(searchValue);
+   console.log("productCategory",productData);
   const [activeIndex, setActiveIndex] = useState(null); // To manage hover state
-  const [activeGrid, setActiveGrid] = useState("3");
+  const [activeGrid, setActiveGrid] = useState("4");
   return (
     <>
       <div className="bg-black py-8 text-white space-y-3 px-2 text-center">
@@ -95,7 +101,7 @@ const ProductCategory = ({ slug }) => {
         <div
           className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${activeGrid} gap-6`}
         >
-          {products?.map((product, index) => (
+          {productData?.data?.data?.map((product, index) => (
             <ProductCardShop
               key={index}
               product={product}

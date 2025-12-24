@@ -11,6 +11,7 @@ const ProductCardShop = ({ product, isActive, onHover, onLeave }) => {
   const handleAddToCard = (product) => {
     dispatch(addToCart(product));
   };
+  console.log("productCardShop", product?.main_two_images[1]?.image);
   return (
     <div
       onMouseEnter={onHover} // Call parent hover handler
@@ -21,48 +22,35 @@ const ProductCardShop = ({ product, isActive, onHover, onLeave }) => {
     >
       <Link href={`/product/${product?.slug}`}>
         <div className="max-h-62.5 relative overflow-hidden">
-          {/* Discount and Hot badge */}
-          <div className=" absolute left-0 top-3 md:top-8">
-            <div className="flex justify-between flex-col items-center gap-2">
-              <span className="text-xs  bg-primary-base text-white px-2 py-1 ">
-                {product.discount}
-              </span>
-              <span className="text-xs font-medium bg-red-base text-white px-2 py-1 ">
-                HOT
-              </span>
-            </div>
-          </div>
-          {/* Product Image */}
+        
           {/* Product Image */}
           <Image
             width={250}
             height={250}
             src={
-              product.images?.length
-                ? isActive && product.images[1]
-                  ? product.images[1]
-                  : product.images[0]
+              product.main_two_images?.length
+                ? `${process.env.NEXT_PUBLIC_API_URL}/storage/` +
+                  (isActive && product?.main_two_images[1]?.image
+                    ? product.main_two_images[1].image
+                    : product.main_two_images[0].image)
                 : "/placeholder.png"
             }
-            alt={product.title}
-            className={`w-full h-[250px] cursor-pointer object-fill transition-opacity duration-500 `}
+            alt={product?.name}
+            className={`w-full h-62.5 cursor-pointer object-fill transition-opacity duration-500 `}
           />
         </div>
       </Link>
       {/* Product Title */}
       <Link href={`/product/${product?.slug}`}>
         <h3 className="text-sm overflow-hidden font-semibold hover:text-black-muted duration-300 cursor-pointer mt-3">
-          {product.title}
+          {product?.name}
         </h3>
       </Link>
 
       {/* Price */}
       <div className="mt-2 flex items-center gap-2">
-        <p className="line-through text-black-muted text-sm">
-          ৳ {product.oldPrice}
-        </p>
         <p className="text-base text-primary-base font-medium">
-          ৳ {product.newPrice}
+         $ {product?.base_price}
         </p>
       </div>
 

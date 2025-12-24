@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Image Example</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Optional: smooth hover effect for scaling */
+    .group:hover img {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="relative overflow-hidden w-72 h-40 md:h-48 group rounded-lg shadow-lg">
+    <img
+      src="http://127.0.0.1:8000/storage/images/1766590286_7-430x430.webp"
+      alt="Product Name"
+      class="w-full h-full object-cover transition-transform duration-500"
+    />
+  </div>
+
+</body>
+</html>

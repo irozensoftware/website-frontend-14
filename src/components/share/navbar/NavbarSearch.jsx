@@ -1,5 +1,5 @@
 "use client";
-import { categoryData } from "@/utils/db/db_category";
+import { useGetAllCategoryQuery } from "@/redux/api/commonApi";
 import React, { useState, useEffect, useRef } from "react";
 import { IoSearchOutline, IoChevronDownOutline } from "react-icons/io5";
 
@@ -8,7 +8,7 @@ const NavbarSearch = () => {
   const [activeCategory, setActiveCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Accessories");
   const dropdownRef = useRef(null);
-
+ const {data:allCategory}=useGetAllCategoryQuery();
   // Close dropdown on outside click
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -33,7 +33,7 @@ const NavbarSearch = () => {
       >
         <div
           onClick={() => setActiveCategory(!activeCategory)}
-          className="flex justify-between w-[110px] xl:w-[150px] items-center gap-2 cursor-pointer"
+          className="flex justify-between w-27.5 xl:w-37.5 items-center gap-2 cursor-pointer"
         >
           <p className="text-[15px] text-black-muted capitalize">
             {selectedCategory?.slice(0, 12)}
@@ -51,7 +51,7 @@ const NavbarSearch = () => {
           }`}
         >
           <div className="space-y-2">
-            {categoryData.map((item, index) => (
+            {allCategory?.data?.map((item, index) => (
               <p
                 onClick={() => {
                   setSelectedCategory(item?.name);

@@ -12,12 +12,15 @@ import { toggleShopCardDrawer } from "@/redux/features/toggleSlice";
 import { FaChevronDown, FaRegHeart } from "react-icons/fa";
 import { menuDB } from "@/utils/db/menuDB";
 import { usePathname } from "next/navigation";
+import { useGetAllCategoryQuery } from "@/redux/api/commonApi";
 
 const MainNavbar = () => {
   const [activeSidebar, setActiveSidebar] = useState(false);
   const { selectedItems } = useSelector((status) => status.carts);
   const dispatch = useDispatch();
   const path = usePathname();
+   const {data:allCategory}=useGetAllCategoryQuery();
+  
   return (
     <>
       <NavbarTopMassage />
@@ -62,11 +65,11 @@ const MainNavbar = () => {
                 className="relative cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
                 <FaRegHeart className="text-[22px]" />
-                <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
+                {/* <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
                   {selectedItems}
-                </span>
+                </span> */}
               </div>
-              <div
+              {/* <div
                 onClick={() => dispatch(toggleShopCardDrawer())}
                 className="relative hidden md:block cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
@@ -83,7 +86,7 @@ const MainNavbar = () => {
                 <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
                   {selectedItems}
                 </span>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
@@ -100,21 +103,12 @@ const MainNavbar = () => {
                   {path !== "/" && (
                     <aside className="absolute top-full left-0 w-full border-x border-gray-200 bg-white opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
                       <ul className="divide-y text-sm">
-                        {[
-                          "Home",
-                          "Bags & Baggage",
-                          "Home & Kitchen",
-                          "Personal Care",
-                          "Pet Supplies",
-                          "Toys & Gaming",
-                          "Bathroom Accessories",
-                          "Car Accessories",
-                        ].map((item) => (
+                        {allCategory?.data?.map((item,index) => (
                           <li
-                            key={item}
+                            key={index}
                             className="px-4 py-3 font-medium border-b hover:bg-gray-100 border-gray-200 cursor-pointer"
                           >
-                            {item}
+                            {item?.name}
                           </li>
                         ))}
                       </ul>
@@ -148,21 +142,12 @@ const MainNavbar = () => {
             <div className=" hidden md:block">
               <aside className="border-x border-gray-200 w-61">
                 <ul className="divide-y text-sm">
-                  {[
-                    "Home",
-                    "Bags & Baggage",
-                    "Home & Kitchen",
-                    "Personal Care",
-                    "Pet Supplies",
-                    "Toys & Gaming",
-                    "Bathroom Accessories",
-                    "Car Accessories",
-                  ].map((item) => (
+                  {allCategory?.data?.map((item,index) => (
                     <li
-                      key={item}
+                      key={index}
                       className="px-4 py-3  font-medium border-b hover:bg-gray-200 border-gray-200 cursor-pointer"
                     >
-                      {item}
+                      {item?.name}
                     </li>
                   ))}
                 </ul>
