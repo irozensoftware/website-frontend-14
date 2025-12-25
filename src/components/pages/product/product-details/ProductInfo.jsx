@@ -15,11 +15,31 @@ import ProductDetailsAndReview from "./ProductDetailsAndReview";
 import RelatedProducts from "./RelatedProducts";
 import ProductDetailsImageSection from "./ProductDetailsImageSection";
 
-export default function ProductInfo() {
+export default function ProductInfo({ product,relatedProduct }) {
   const [value, setValue] = useState(1);
   const increment = () => setValue((prev) => prev + 1);
   const decrement = () => setValue((prev) => (prev > 1 ? prev - 1 : 1));
+  const mapping_variants = product?.mapping_variants || [];
 
+const groupedArray = Object.values(
+  mapping_variants.reduce((acc, item) => {
+    const variantId = item.variant.id;
+
+    if (!acc[variantId]) {
+      acc[variantId] = {
+        variant_id: variantId,
+        attributes: []
+      };
+    }
+
+    acc[variantId].attributes.push({
+      id: item.attribute.id,
+      name: item.attribute.name
+    });
+
+    return acc;
+  }, {})
+);
 
   return (
     <>
@@ -27,32 +47,40 @@ export default function ProductInfo() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image Section */}
           <div>
-          <ProductDetailsImageSection/>
-          
+            <ProductDetailsImageSection
+              imagesData={product?.images?.map((item) => item?.image)}
+            />
           </div>
 
           {/* Product Details */}
           <div>
-            <ProductHeader />
+            <ProductHeader product={product} />
             <div className="pt-5">
               <h1 className=" text-base md:text-lg xl:text-xl 2xl:text-2xl font-medium mb-4">
-                কালোজিরা ফুলের মধু (Premium Blackseed Flower Honey)
+                {product?.name}
               </h1>
-              
+
               <div className="flex items-center gap-3 py-2">
-                <p className="text-gray-500 text-base md:text-xl line-through">
-                  ৳1,800
-                </p>
-                <p className="text-base md:text-xl text-green-600  font-semibold">
-                  ৳1,200
+                <p className="text-base md:text-xl text-primary-base  font-bold">
+                  ${product?.base_price}
                 </p>
               </div>
-              <p className="mb-6 text-sm text-black-muted">
-                মধুময় বাদাম হল এক প্রাকৃতিক, স্বাস্থ্যসম্মত এবং স্বাদে পরিপূর্ণ
-                খাবার, যা আপনার প্রতিদিনের স্ন্যাকিং-এর জন্য আদর্শ। শুদ্ধ মধুর
-                সুমিষ্টতা এবং প্রিমিয়াম মানের বাদামের পুষ্টিগুণ একত্রিত করে তৈরি
-                করা হয়েছে এই অনন্য খাবারটি।
-              </p>
+              <div className="space-y-3 pb-5">
+                 {
+                  groupedArray?.map((variant,index) => <div key={index}>
+                    <div className="flex items-center gap-3">
+                      {variant?.attributes.map((attr,index) => (
+                        <button
+                          key={index}
+                          className="border border-gray-400 px-3 py-1 text-sm hover:border-primary-base hover:text-primary-base cursor-pointer transition-all duration-300"
+                        >
+                          {attr?.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>)
+                 }
+              </div>
               <div className="flex items-center space-x-4 mb-6">
                 <div className="flex items-center">
                   <button
@@ -81,7 +109,6 @@ export default function ProductInfo() {
                   <button className="bg-primary-base text-sm font-semibold text-white px-4 py-3 rounded transition-all duration-300 ease-in-out hover:bg-orange-500 hover:scale-105 shadow-md">
                     Add to Cart
                   </button>
-                  
                 </div>
               </div>
               <div className="flex items-center gap-3 pb-3">
@@ -103,15 +130,16 @@ export default function ProductInfo() {
               <div className="pb-4 border-t border-gray-400">
                 <div className="text-black-muted text-sm pt-3 pb-4  space-y-3">
                   <h1>
+                    <span className="text-black-base  font-semibold">SKU:</span>{" "}
+                    {product?.sku}
+                  </h1>
+                  <h1>
                     <span className="text-black-base  font-semibold">
                       Categories:
                     </span>{" "}
-                    Honey, Mix Food, Organic Food
+                    {product?.category?.name}
                   </h1>
-                  <h1>
-                    <span className="text-black-base font-semibold">Tags:</span>{" "}
-                    Falaq Food, honey nuts, মধুময় বাদাম
-                  </h1>
+
                   <div className="flex items-center gap-1">
                     <span className="text-black-base font-semibold">
                       Share:
@@ -151,8 +179,8 @@ export default function ProductInfo() {
         </div>
       </div>
       {/* product details  and review  */}
-      <ProductDetailsAndReview />
-      <RelatedProducts />
+      <ProductDetailsAndReview product={product} />
+      <RelatedProducts relatedProduct={relatedProduct} />
     </>
   );
 }

@@ -104,12 +104,12 @@ const MainNavbar = () => {
                     <aside className="absolute top-full left-0 w-full border-x border-gray-200 bg-white opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
                       <ul className="divide-y text-sm">
                         {allCategory?.data?.map((item,index) => (
-                          <li
+                          <Link href={`/product-category/${item?.slug}`} 
                             key={index}
-                            className="px-4 py-3 font-medium border-b hover:bg-gray-100 border-gray-200 cursor-pointer"
+                            className="px-4 block py-3 font-medium border-b hover:bg-gray-100 border-gray-200 cursor-pointer"
                           >
                             {item?.name}
-                          </li>
+                          </Link>
                         ))}
                       </ul>
                     </aside>
@@ -143,12 +143,12 @@ const MainNavbar = () => {
               <aside className="border-x border-gray-200 w-61">
                 <ul className="divide-y text-sm">
                   {allCategory?.data?.map((item,index) => (
-                    <li
+                     <Link href={`/product-category/${item?.slug}`}
                       key={index}
-                      className="px-4 py-3  font-medium border-b hover:bg-gray-200 border-gray-200 cursor-pointer"
+                      className="px-4 py-3  font-medium border-b hover:bg-gray-200 block border-gray-200 cursor-pointer"
                     >
                       {item?.name}
-                    </li>
+                    </Link>
                   ))}
                 </ul>
               </aside>

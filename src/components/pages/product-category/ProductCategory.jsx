@@ -15,7 +15,6 @@ const ProductCategory = ({ slug }) => {
     slug: slug,
   });
   const {data:productData}=useGetProductByCategoryWiseQuery(searchValue);
-   console.log("productCategory",productData);
   const [activeIndex, setActiveIndex] = useState(null); // To manage hover state
   const [activeGrid, setActiveGrid] = useState("4");
   return (
@@ -26,7 +25,7 @@ const ProductCategory = ({ slug }) => {
             <MdOutlineKeyboardBackspace className="text-[30px]" />
           </Link>{" "}
           <h1 className="md:text-3xl xl:text-5xl font-bold capitalize">
-            Car Accessories
+            {productData?.productCategory?.name}
           </h1>
         </div>
       </div>
@@ -44,7 +43,7 @@ const ProductCategory = ({ slug }) => {
               Shop
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-primary-base font-medium">Shop</span>
+            <span className="text-primary-base font-medium">{productData?.productCategory?.name}</span>
           </div>
         </div>
         <div className="flex justify-between gap-1">

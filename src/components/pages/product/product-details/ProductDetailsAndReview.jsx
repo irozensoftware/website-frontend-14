@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import DescriptionContent from "./DescriptionContent";
 import ReviewContent from "./ReviewContent";
 
-const ProductDetailsAndReview = () => {
+const ProductDetailsAndReview = ({product}) => {
   const [activeTab, setActiveTab] = useState("1");
 
   return (
@@ -24,7 +24,7 @@ const ProductDetailsAndReview = () => {
         
         </div>
         <div className="container mx-auto px-4 py-10">
-          {activeTab === "1" ? <DescriptionContent /> : <ReviewContent />}
+         <DescriptionContent description={product?.description} /> 
         </div>
       </div>
     </>

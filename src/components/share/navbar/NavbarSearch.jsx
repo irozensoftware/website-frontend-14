@@ -1,5 +1,6 @@
 "use client";
 import { useGetAllCategoryQuery } from "@/redux/api/commonApi";
+import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { IoSearchOutline, IoChevronDownOutline } from "react-icons/io5";
 
@@ -44,26 +45,26 @@ const NavbarSearch = () => {
 
         {/* Select Category */}
         <div
-          className={`absolute -left-5 mt-2.5 w-50 px-3 py-2 bg-white/80 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all duration-200 ${
+          className={`absolute -left-5 mt-2.5 w-50 px-3 py-2 bg-white/90 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all duration-200 ${
             activeCategory
               ? "opacity-100 scale-100"
               : "opacity-0 scale-95 pointer-events-none"
           }`}
         >
-          <div className="space-y-2">
+          <ul className="space-y-2">
             {allCategory?.data?.map((item, index) => (
-              <p
+               <Link href={`/product-category/${item?.slug}`}
                 onClick={() => {
                   setSelectedCategory(item?.name);
                   setActiveCategory(false);
                 }}
-                className="text-[15px] cursor-pointer text-black-muted hover:text-primary-base duration-150 capitalize"
+                className="text-[15px] block cursor-pointer text-black-muted hover:text-primary-base duration-150 capitalize"
                 key={index}
               >
                 {item?.name}
-              </p>
+              </Link>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
       <div className="border-l border-black-muted px-2 py-2">

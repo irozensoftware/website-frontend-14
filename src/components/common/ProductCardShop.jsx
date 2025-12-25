@@ -11,7 +11,6 @@ const ProductCardShop = ({ product, isActive, onHover, onLeave }) => {
   const handleAddToCard = (product) => {
     dispatch(addToCart(product));
   };
-  console.log("productCardShop", product?.main_two_images[1]?.image);
   return (
     <div
       onMouseEnter={onHover} // Call parent hover handler
