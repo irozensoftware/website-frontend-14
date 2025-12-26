@@ -1,7 +1,14 @@
+"use client";
+import { useGetBannerQuery } from "@/redux/api/commonApi";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function PromoBanners() {
+  const {data}=useGetBannerQuery();
+  const banners=data?.data;
+  const product=data?.product;
+  console.log(banners,'ddddddddddd');
+  console.log(product,'product');
   return (
     <section className="container px-4 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -37,7 +44,7 @@ export default function PromoBanners() {
         </div>
 
         {/* Right Banner */}
-        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#e37017] to-[#3a1600] min-h-65 flex items-center">
+        <div className="relative overflow-hidden rounded-xl bg-linear-to-r from-[#e37017] to-[#3a1600] min-h-65 flex items-center">
           <div className="pl-8 z-10 text-white">
             <p className="text-sm font-semibold mb-2">KITCHEN ACCESSORIES</p>
             <h2 className="text-2xl md:text-3xl font-bold">SMART LIFE</h2>

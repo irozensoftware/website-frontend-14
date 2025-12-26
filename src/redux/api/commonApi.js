@@ -34,6 +34,43 @@ export const commonApi = baseApi.injectEndpoints({
         params: arg
       }),
     }),
+    getTodayHotDeals: build.query({
+      query: (arg) => ({
+        url: `/get-today-hot-deals`,
+        method: "GET",
+        params: arg
+      }),
+    }),
+    getTopPricingProduct: build.query({
+      query: () => ({
+        url: `/get-top-pricing`,
+        method: "GET"
+      }),
+    }),
+    getBanner: build.query({
+      query: () => ({
+        url: `/get-banners`,
+        method: "GET"
+      }),
+    }),
+    getAllBlogCategory: build.query({
+      query: () => ({
+        url: `/get-all-blog-category`,
+        method: "GET"
+      }),
+    }),
+    getBlogs: build.query({
+      query: () => ({
+        url: `/get-all-blogs`,
+        method: "GET"
+      }),
+    }),
+     getBlogBySlug: build.query({
+      query: (slug) => ({
+        url: `/get-single-blog/${slug}`,
+        method: "GET"
+      }),
+    }),
   }),
 });
 
@@ -43,4 +80,10 @@ export const {
   useGetProductBySlugQuery,
   useGetAllFeatruesQuery,
   useGetProductByFeatrueCategoryQuery,
+  useGetTodayHotDealsQuery,
+  useGetTopPricingProductQuery,
+  useGetBannerQuery,
+  useGetAllBlogCategoryQuery,
+  useGetBlogsQuery,
+  useGetBlogBySlugQuery,
 } = commonApi;

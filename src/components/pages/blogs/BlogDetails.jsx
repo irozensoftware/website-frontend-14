@@ -1,3 +1,5 @@
+"use client";
+import { useGetBlogBySlugQuery } from "@/redux/api/commonApi";
 import { blogPosts } from "@/utils/db/blogs_data";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +12,12 @@ import {
   FaHeart,
 } from "react-icons/fa";
 
-export default function BlogPost() {
+export default function BlogPost({slug}) {
+
+
+   const {data}=useGetBlogBySlugQuery(slug)
+  console.log("Slug received in BlogDetails:", slug)
+  console.log("Slug received in BlogDetails:", data)
   const categories = [
     "Beauty and Personal Care",
     "Cooking Tips",

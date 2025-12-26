@@ -1,10 +1,13 @@
-import BlogCard from "@/components/common/BlogCard";
+"use client"
 import SecondBlogCard from "@/components/common/SecondBlogCard";
-import { blogPosts } from "@/utils/db/blogs_data";
+import { useGetBlogsQuery } from "@/redux/api/commonApi";
 import Link from "next/link";
 import React from "react";
 
 const BlogPage = () => {
+    const { data } = useGetBlogsQuery();
+    const blogPostds = data?.data?.data || [];
+    console.log(blogPostds, "blogPostds");
   return (
     <>
       <div className="bg-black py-10 text-white space-y-3 px-2 text-center">
@@ -18,8 +21,8 @@ const BlogPage = () => {
       </div>
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-10 gap-5">
-          {blogPosts?.map((product, index) => (
-            <SecondBlogCard key={index} blog={product} />
+          {blogPostds?.map((blog, index) => (
+            <SecondBlogCard key={index} blog={blog} />
           ))}
         </div>
       </div>

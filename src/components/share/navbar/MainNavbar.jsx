@@ -12,15 +12,23 @@ import { toggleShopCardDrawer } from "@/redux/features/toggleSlice";
 import { FaChevronDown, FaRegHeart } from "react-icons/fa";
 import { menuDB } from "@/utils/db/menuDB";
 import { usePathname } from "next/navigation";
-import { useGetAllCategoryQuery } from "@/redux/api/commonApi";
+import {
+  useGetAllCategoryQuery,
+  useGetBannerQuery,
+} from "@/redux/api/commonApi";
 
 const MainNavbar = () => {
+  const { data } = useGetBannerQuery();
+  const banner = data?.data;
+  const product = banner?.product;
+  console.log(banner, "ddddddddddd");
+  console.log(product, "product");
   const [activeSidebar, setActiveSidebar] = useState(false);
   const { selectedItems } = useSelector((status) => status.carts);
   const dispatch = useDispatch();
   const path = usePathname();
-   const {data:allCategory}=useGetAllCategoryQuery();
-  
+  const { data: allCategory } = useGetAllCategoryQuery();
+
   return (
     <>
       <NavbarTopMassage />
@@ -103,8 +111,9 @@ const MainNavbar = () => {
                   {path !== "/" && (
                     <aside className="absolute top-full left-0 w-full border-x border-gray-200 bg-white opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
                       <ul className="divide-y text-sm">
-                        {allCategory?.data?.map((item,index) => (
-                          <Link href={`/product-category/${item?.slug}`} 
+                        {allCategory?.data?.map((item, index) => (
+                          <Link
+                            href={`/product-category/${item?.slug}`}
                             key={index}
                             className="px-4 block py-3 font-medium border-b hover:bg-gray-100 border-gray-200 cursor-pointer"
                           >
@@ -142,8 +151,9 @@ const MainNavbar = () => {
             <div className=" hidden md:block">
               <aside className="border-x border-gray-200 w-61">
                 <ul className="divide-y text-sm">
-                  {allCategory?.data?.map((item,index) => (
-                     <Link href={`/product-category/${item?.slug}`}
+                  {allCategory?.data?.map((item, index) => (
+                    <Link
+                      href={`/product-category/${item?.slug}`}
                       key={index}
                       className="px-4 py-3  font-medium border-b hover:bg-gray-200 block border-gray-200 cursor-pointer"
                     >
@@ -157,18 +167,17 @@ const MainNavbar = () => {
             <div className="w-full grid grid-cols-1 md:grid-cols-2 items-center gap-6 px-6 mt-10">
               <div className="order-2 md:order-1">
                 <p className="text-primary-base text-base md:text-xl font-medium">
-                  Car Mobile Holder
+                  {product?.category?.name}
                 </p>
                 <h1 className="text-xl md:text-6xl text-black font-bold leading-tight mt-2">
-                  PERFORMANCE
-                  <br /> WONDERFUL
+                 {product?.name}
                 </h1>
                 <p className="text-black-muted mt-4">
-                  You Can Use For All Vehicles
+                  {banner?.name}
                 </p>
                 <div className="mt-6">
                   <Link
-                    href={"/"}
+                    href={`product/${product?.slug}`}
                     className="bg-primary-base opacity-90 hover:opacity-100 text-white px-6 py-3 rounded-full text-sm"
                   >
                     BUY NOW
@@ -178,7 +187,9 @@ const MainNavbar = () => {
 
               <div className="order-1 md:order-2 flex justify-center pt-4">
                 <Image
-                  src="https://www.gadstyle.com/wp-content/uploads/2022/09/baseus-car-mobile-holder-stable-gravitational-car-mount-air-outlet-mobile-phone-holder-brac-1.webp"
+                  src={product?.primary_image?.image
+              ? `${process.env.NEXT_PUBLIC_API_URL}/storage/${product.primary_image.image}`
+              : "/placeholder.png"}
                   alt="Car Mobile Holder"
                   width={400}
                   height={400}
