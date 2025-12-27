@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { FaRegCommentDots } from "react-icons/fa6";
 import { CiShare2 } from "react-icons/ci";
 import moment from "moment";
 
 const SecondBlogCard = ({ blog }) => {
+
   return (
     <>
       <div className="max-w-full bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]  rounded-b-sm overflow-hidden">

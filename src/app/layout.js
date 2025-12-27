@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/redux/Provider";
 import DefaultLayout from "@/components/layouts/default-layout/DefaultLayout";
+import ShoppingCartDrawer from "@/components/modal/ShoppingCardDrawer";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,8 @@ export default function RootLayout({ children }) {
          <ReduxProvider>
           <DefaultLayout>
             <div className="min-h-[40vh]">{children}</div>
-            {/* <ShoppingCardDrawer  /> */}
+            <ShoppingCartDrawer  />
+             <Toaster />
           </DefaultLayout>
         </ReduxProvider>
       </body>

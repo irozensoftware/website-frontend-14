@@ -1,30 +1,31 @@
 "use client";
-import { updatedQuantity } from "@/redux/features/cartSlice";
+import { removeFromCart, updatedQuantity } from "@/redux/features/cartSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useMemo, useState } from "react";
-import { FaBackspace } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 const CartPage = () => {
   const pathName = usePathname();
-  const { products } = useSelector((state) => state.carts);
+  const { totalPrice, products } = useSelector((state) => state.carts);
+
   const dispatch = useDispatch();
 
   // Dynamic shipping
   const [shipping, setShipping] = useState(50); // default Inside Dhaka
 
+  console.log("products", products);
   const subtotal = useMemo(() => {
     return products?.reduce(
-      (sum, item) => sum + item.newPrice * item.quantities,
+      (sum, item) => sum + item?.base_price * item.quantities,
       0
     );
   }, [products]);
 
-  const total = subtotal + shipping;
+  const total = subtotal + 15;
   return (
     <>
       <div className="bg-black py-8 text-white space-y-3 px-2 text-center">
@@ -74,32 +75,35 @@ const CartPage = () => {
             {products?.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between border p-4 rounded relative"
+                className="flex items-center justify-between border border-gray-200 p-4 rounded relative"
               >
                 <button
-                  onClick={() => dispatch(removeFromCart(item?.id))}
-                  className="absolute right-2 top-1"
+                  onClick={() => dispatch(removeFromCart(item))}
+                  className="absolute right-2 cursor-pointer top-1"
                 >
                   <IoMdClose className="text-xl text-red-500" />
                 </button>
 
                 <div className="flex items-center gap-4">
                   <Image
-                    src={item.image1}
-                    alt={item?.title}
+                    src={
+                      `${process.env.NEXT_PUBLIC_API_URL}/storage/` +
+                      item?.primary_image?.image
+                    }
+                    alt={item?.name}
                     width={250}
                     height={250}
                     className="w-20 h-20 object-cover rounded"
                   />
                   <div>
                     <h2 className="font-medium text-black-base">
-                      {item?.title}
+                      {item?.name}
                     </h2>
                     <p className="text-black-muted text-xs">
-                      {item?.newPrice} ৳
+                      ${item?.base_price}
                     </p>
-                    <p className="text-[#159758] text-sm md:text-base font-semibold">
-                      {item?.newPrice * item?.quantities} ৳
+                    <p className="text-primary-base text-sm md:text-base font-semibold">
+                      ${item?.base_price * item?.quantities}
                     </p>
                   </div>
                 </div>
@@ -112,7 +116,7 @@ const CartPage = () => {
                       )
                     }
                     disabled={item?.quantities == 1}
-                    className="hover:bg-[#159758] hover:border-[#159758] hover:text-white text-black-muted border border-black-muted px-2 cursor-pointer py-1 text-2xl"
+                    className="hover:bg-primary-base hover:border-primary-base hover:text-white text-black-muted border border-black-muted px-2 cursor-pointer py-1 text-2xl"
                   >
                     -
                   </button>
@@ -129,7 +133,7 @@ const CartPage = () => {
                         updatedQuantity({ id: item?.id, type: "increment" })
                       )
                     }
-                    className="hover:bg-[#159758] hover:border-[#159758] hover:text-white text-black-muted border border-black-muted cursor-pointer px-2 py-1 text-2xl"
+                    className="hover:bg-primary-base hover:border-primary-base hover:text-white text-black-muted border border-black-muted cursor-pointer px-2 py-1 text-2xl"
                   >
                     +
                   </button>
@@ -139,12 +143,12 @@ const CartPage = () => {
           </div>
 
           <div>
-            <div className="border rounded p-6">
+            <div className="border border-gray-200 rounded p-6">
               <h2 className="text-xl font-semibold mb-4">CART TOTALS</h2>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between text-sm border-b pb-3 border-gray-200 md:text-base">
                   <span>Subtotal</span>
-                  <span>{100} ৳</span>
+                  <span>${subtotal}</span>
                 </div>
 
                 {/* Shipping */}
@@ -152,20 +156,7 @@ const CartPage = () => {
                   <span className="text-sm md:text-base">Shipping</span>
                   <div className="text-sm space-y-1">
                     <label className="flex items-center gap-1 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="shipping"
-                        checked={100 === 50}
-                      />
-                      Inside Dhaka: 50 ৳
-                    </label>
-                    <label className="flex items-center gap-1 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="shipping"
-                        checked={100 === 80}
-                      />
-                      Outside Dhaka: 80 ৳
+                      $15:00
                     </label>
                   </div>
                 </div>
@@ -173,13 +164,16 @@ const CartPage = () => {
                 {/* Total */}
                 <div className="flex justify-between font-medium text-lg">
                   <span>Total</span>
-                  <span>000 ৳</span>
+                  <span className="text-primary-base">${total}</span>
                 </div>
               </div>
 
-              <button className="mt-6 w-full bg-primary-base hover:opacity-90 duration-200 text-white py-3 rounded">
+              <Link
+                href={"/checkout"}
+                className="mt-6 block text-center w-full bg-primary-base hover:opacity-90 duration-200 text-white py-3 rounded"
+              >
                 PROCEED TO CHECKOUT
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -60,7 +60,7 @@ const updateCartState = (state) => {
   );
   state.totalPrice = state.products.reduce(
     (total, product) =>
-      total + parseFloat(product?.newPrice) * parseInt(product?.quantities),
+      total + parseFloat(product?.base_price) * parseInt(product?.quantities),
     0
   );
 };

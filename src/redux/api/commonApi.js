@@ -71,6 +71,12 @@ export const commonApi = baseApi.injectEndpoints({
         method: "GET"
       }),
     }),
+     getBlogByCategory:build.query({
+      query: (slug) => ({
+        url: `/get-blog-by-category/${slug}`,
+        method: "GET"
+      }),
+    }),
   }),
 });
 
@@ -86,4 +92,5 @@ export const {
   useGetAllBlogCategoryQuery,
   useGetBlogsQuery,
   useGetBlogBySlugQuery,
+  useGetBlogByCategoryQuery
 } = commonApi;

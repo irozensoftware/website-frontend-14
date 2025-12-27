@@ -14,32 +14,98 @@ import { IoLogoYoutube } from "react-icons/io5";
 import ProductDetailsAndReview from "./ProductDetailsAndReview";
 import RelatedProducts from "./RelatedProducts";
 import ProductDetailsImageSection from "./ProductDetailsImageSection";
+import { toggleShopCardDrawer } from "@/redux/features/toggleSlice";
+import { addToCart } from "@/redux/features/cartSlice";
+import { useDispatch } from "react-redux";
 
-export default function ProductInfo({ product,relatedProduct }) {
+export default function ProductInfo({ product, relatedProduct }) {
   const [value, setValue] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState([]);
   const increment = () => setValue((prev) => prev + 1);
   const decrement = () => setValue((prev) => (prev > 1 ? prev - 1 : 1));
   const mapping_variants = product?.mapping_variants || [];
+ const dispatch = useDispatch();
+  const groupedArray = Object.values(
+    mapping_variants.reduce((acc, item) => {
+      const variantId = item.variant.id;
 
-const groupedArray = Object.values(
-  mapping_variants.reduce((acc, item) => {
-    const variantId = item.variant.id;
+      if (!acc[variantId]) {
+        acc[variantId] = {
+          variant_id: variantId,
+          attributes: [],
+        };
+      }
 
-    if (!acc[variantId]) {
-      acc[variantId] = {
-        variant_id: variantId,
-        attributes: []
-      };
+      acc[variantId].attributes.push({
+        id: item.attribute.id,
+        name: item.attribute.name,
+      });
+
+      return acc;
+    }, {})
+  );
+
+  const handleAddToCard = (product) => {
+  if (product?.has_variant == 0) {
+    dispatch(addToCart({ ...product, qty: value }));
+    dispatch(toggleShopCardDrawer());
+    return;
+  }
+
+  // 🔴 variant product হলে must select
+  if (selectedVariant.length !== groupedArray.length) {
+    alert("Please select all variants");
+    return;
+  }
+  const selectedAttrIds = selectedVariant.map(v => v.attribute_id);
+
+  const matchedVariant = mapping_variants.find((item) =>
+    selectedAttrIds.includes(item.attribute.id)
+  );
+
+  if (!matchedVariant) {
+    alert("Variant not available");
+    return;
+  }
+
+   const variantInfo = selectedVariant?.map((item)=>{
+    const variantAttribute = mapping_variants.find((mv)=> mv.attribute.id === item.attribute_id && mv.variant.id === item.variant_id);
+    return {
+      variant_id: item.variant_id,
+      attribute_id: item.attribute_id,
+      attribute_name: variantAttribute?.attribute?.name,
+      variant_name: variantAttribute?.variant?.name,
     }
+   });
+  const productData= {
+      ...product,
+      variantInfo: variantInfo,
+      quantities: value || 1,
+    }
+  dispatch(
+    addToCart(productData)
+  );
+  dispatch(toggleShopCardDrawer());
+};
 
-    acc[variantId].attributes.push({
-      id: item.attribute.id,
-      name: item.attribute.name
+
+  const handleVariantSelect = (variantId, attr) => {
+    setSelectedVariant((prev) => {
+      const exists = prev.find((v) => v.variant_id === variantId);
+
+      if (exists) {
+        // same variant হলে replace হবে
+        return prev.map((v) =>
+          v.variant_id === variantId
+            ? { variant_id: variantId, attribute_id: attr.id }
+            : v
+        );
+      }
+
+      // new variant add
+      return [...prev, { variant_id: variantId, attribute_id: attr.id }];
     });
-
-    return acc;
-  }, {})
-);
+  };
 
   return (
     <>
@@ -66,26 +132,43 @@ const groupedArray = Object.values(
                 </p>
               </div>
               <div className="space-y-3 pb-5">
-                 {
-                  groupedArray?.map((variant,index) => <div key={index}>
+                {groupedArray?.map((variant) => (
+                  <div key={variant.variant_id}>
                     <div className="flex items-center gap-3">
-                      {variant?.attributes.map((attr,index) => (
-                        <button
-                          key={index}
-                          className="border border-gray-400 px-3 py-1 text-sm hover:border-primary-base hover:text-primary-base cursor-pointer transition-all duration-300"
-                        >
-                          {attr?.name}
-                        </button>
-                      ))}
+                      {variant.attributes.map((attr) => {
+                        const isActive = selectedVariant.some(
+                          (v) =>
+                            v.variant_id === variant.variant_id &&
+                            v.attribute_id === attr.id
+                        );
+
+                        return (
+                          <button
+                            key={attr.id}
+                            onClick={() =>
+                              handleVariantSelect(variant.variant_id, attr)
+                            }
+                            className={`border px-3 py-1 text-sm transition-all cursor-pointer duration-300
+                            ${
+                              isActive
+                                ? "border-primary-base bg-primary-base text-white"
+                                : "border-gray-400 hover:border-primary-base hover:text-primary-base"
+                            }`}
+                          >
+                            {attr.name}
+                          </button>
+                        );
+                      })}
                     </div>
-                  </div>)
-                 }
+                  </div>
+                ))}
               </div>
+
               <div className="flex items-center space-x-4 mb-6">
                 <div className="flex items-center">
                   <button
                     onClick={decrement}
-                    className="hover:bg-primary-base hover:border-primary-base hover:text-white text-black-muted duration-200 border border-black-muted px-2 py-1 text-2xl"
+                    className="hover:bg-primary-base hover:border-primary-base hover:text-white text-black-muted cursor-pointer duration-200 border border-black-muted px-2 py-1 text-2xl"
                   >
                     -
                   </button>
@@ -100,13 +183,16 @@ const groupedArray = Object.values(
 
                   <button
                     onClick={increment}
-                    className="hover:bg-primary-base hover:border-primary-base hover:text-white text-black-muted border border-black-muted px-2 py-1 text-2xl"
+                    className="hover:bg-primary-base hover:border-primary-base hover:text-white text-black-muted border cursor-pointer border-black-muted px-2 py-1 text-2xl"
                   >
                     +
                   </button>
                 </div>
                 <div className="flex gap-3">
-                  <button className="bg-primary-base text-sm font-semibold text-white px-4 py-3 rounded transition-all duration-300 ease-in-out hover:bg-orange-500 hover:scale-105 shadow-md">
+                  <button
+                    onClick={() => handleAddToCard(product)}
+                    className="bg-primary-base text-sm font-semibold text-white px-4 py-3 rounded transition-all duration-300 ease-in-out hover:bg-orange-500  cursor-pointer hover:scale-105 shadow-md"
+                  >
                     Add to Cart
                   </button>
                 </div>

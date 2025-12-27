@@ -1,15 +1,23 @@
 "use client";
 import { addToCart } from "@/redux/features/cartSlice";
+import { toggleShopCardDrawer } from "@/redux/features/toggleSlice";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 
 const ProductCard = ({ product, isActive, onHover, onLeave }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const handleAddToCard = (product) => {
+    if (product?.has_variant == 1) {
+      router.push(`/product/${product?.slug}`);
+    } else {
       dispatch(addToCart(product));
+      dispatch(toggleShopCardDrawer())
+    }
   };
 
   return (
@@ -20,12 +28,15 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
         isActive ? "scale-y-105 pb-5" : ""
       }   transition-transform transform `}
     >
-      <Link href={`/product/${product?.slug}`}>
-        <div className="max-h-62.5 relative overflow-hidden">
+      <div>
+        <Link
+          href={`/product/${product?.slug}`}
+          className="max-h-62.5 relative overflow-hidden"
+        >
           <Image
             width={250}
             height={250}
-           src={
+            src={
               product.main_two_images?.length
                 ? `${process.env.NEXT_PUBLIC_API_URL}/storage/` +
                   (isActive && product?.main_two_images[1]?.image
@@ -36,18 +47,18 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
             alt={product?.name}
             className={`w-full h-40 md:h-62.5 cursor-pointer object-fill transition-opacity duration-500 `}
           />
-        </div>
-      </Link>
+        </Link>
+      </div>
       {/* Product Title */}
       <Link href={`/product/${product?.slug}`}>
         <h3 className="text-sm overflow-hidden text-center font-semibold hover:text-black-muted duration-300 cursor-pointer mt-3">
-          {product.name}
+          {product?.name}
         </h3>
       </Link>
 
       <h3 className="text-[12px]  text-center text-black-muted">
-         {product?.category?.name}
-        </h3>
+        {product?.category?.name}
+      </h3>
 
       {/* Price */}
       <div className="mt-2 gap-2 text-center">
@@ -60,7 +71,7 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
       <div className={`flex flex-col space-y-2 mt-1`}>
         <button
           onClick={() => handleAddToCard(product)}
-          className="bg-primary-base group relative overflow-hidden flex justify-center items-center text-sm font-bold text-white px-4 py-2 duration-200"
+          className="bg-primary-base group cursor-pointer relative overflow-hidden flex justify-center items-center text-sm font-bold text-white px-4 py-2 duration-200"
         >
           <span className="group-hover:hidden">ADD TO CART</span>
           <FiShoppingCart className="text-[20px] group-hover:block hidden duration-200" />

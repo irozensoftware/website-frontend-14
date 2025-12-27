@@ -63,7 +63,7 @@ const MainNavbar = () => {
             <div className="flex items-center space-x-6 text-black-base">
               <Link
                 href={"/login"}
-                className="hidden lg:block   hover:text-black-base uppercase font-medium text-black-muted duration-200"
+                className="hidden lg:block text-sm  hover:text-black-base uppercase font-medium text-black-muted duration-200"
               >
                 <p>Login/Register</p>
               </Link>
@@ -72,29 +72,21 @@ const MainNavbar = () => {
                 onClick={() => dispatch(toggleShopCardDrawer())}
                 className="relative cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
-                <FaRegHeart className="text-[22px]" />
-                {/* <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
-                  {selectedItems}
-                </span> */}
-              </div>
-              {/* <div
-                onClick={() => dispatch(toggleShopCardDrawer())}
-                className="relative hidden md:block cursor-pointer  text-black-base hover:text-black-muted duration-200"
-              >
-                <FaCodeCompare className="text-[22px]" />
+                <FaRegHeart className="text-[18px]" />
                 <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
                   {selectedItems}
                 </span>
               </div>
+             
               <Link href={'/cart'}
                 onClick={() => dispatch(toggleShopCardDrawer())}
                 className="relative hidden md:block cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
-                <CgShoppingCart className="text-[22px]" />
+                <CgShoppingCart className="text-[18px]" />
                 <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
                   {selectedItems}
                 </span>
-              </Link> */}
+              </Link>
             </div>
           </div>
         </div>
