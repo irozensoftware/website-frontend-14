@@ -1,11 +1,8 @@
 "use client";
 // pages/product/[id].js
 import { useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
-import { PiShareNetworkFill } from "react-icons/pi";
-
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import ProductHeader from "./ProductHeader";
-import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import { FaFacebookF } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -16,15 +13,20 @@ import RelatedProducts from "./RelatedProducts";
 import ProductDetailsImageSection from "./ProductDetailsImageSection";
 import { toggleShopCardDrawer } from "@/redux/features/toggleSlice";
 import { addToCart } from "@/redux/features/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWishlit } from "@/redux/features/wishlistSlice";
 
 export default function ProductInfo({ product, relatedProduct }) {
   const [value, setValue] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState([]);
   const increment = () => setValue((prev) => prev + 1);
+  const { wish_products } = useSelector((status) => status.wishlist);
+
+  const isWishlisted = wish_products?.some((item) => item.id === product?.id);
+
   const decrement = () => setValue((prev) => (prev > 1 ? prev - 1 : 1));
   const mapping_variants = product?.mapping_variants || [];
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const groupedArray = Object.values(
     mapping_variants.reduce((acc, item) => {
       const variantId = item.variant.id;
@@ -46,48 +48,49 @@ export default function ProductInfo({ product, relatedProduct }) {
   );
 
   const handleAddToCard = (product) => {
-  if (product?.has_variant == 0) {
-    dispatch(addToCart({ ...product, qty: value }));
-    dispatch(toggleShopCardDrawer());
-    return;
-  }
-
-  // 🔴 variant product হলে must select
-  if (selectedVariant.length !== groupedArray.length) {
-    alert("Please select all variants");
-    return;
-  }
-  const selectedAttrIds = selectedVariant.map(v => v.attribute_id);
-
-  const matchedVariant = mapping_variants.find((item) =>
-    selectedAttrIds.includes(item.attribute.id)
-  );
-
-  if (!matchedVariant) {
-    alert("Variant not available");
-    return;
-  }
-
-   const variantInfo = selectedVariant?.map((item)=>{
-    const variantAttribute = mapping_variants.find((mv)=> mv.attribute.id === item.attribute_id && mv.variant.id === item.variant_id);
-    return {
-      variant_id: item.variant_id,
-      attribute_id: item.attribute_id,
-      attribute_name: variantAttribute?.attribute?.name,
-      variant_name: variantAttribute?.variant?.name,
+    if (product?.has_variant == 0) {
+      dispatch(addToCart({ ...product, qty: value }));
+      dispatch(toggleShopCardDrawer());
+      return;
     }
-   });
-  const productData= {
+
+    // 🔴 variant product হলে must select
+    if (selectedVariant.length !== groupedArray.length) {
+      alert("Please select all variants");
+      return;
+    }
+    const selectedAttrIds = selectedVariant.map((v) => v.attribute_id);
+
+    const matchedVariant = mapping_variants.find((item) =>
+      selectedAttrIds.includes(item.attribute.id)
+    );
+
+    if (!matchedVariant) {
+      alert("Variant not available");
+      return;
+    }
+
+    const variantInfo = selectedVariant?.map((item) => {
+      const variantAttribute = mapping_variants.find(
+        (mv) =>
+          mv.attribute.id === item.attribute_id &&
+          mv.variant.id === item.variant_id
+      );
+      return {
+        variant_id: item.variant_id,
+        attribute_id: item.attribute_id,
+        attribute_name: variantAttribute?.attribute?.name,
+        variant_name: variantAttribute?.variant?.name,
+      };
+    });
+    const productData = {
       ...product,
       variantInfo: variantInfo,
       quantities: value || 1,
-    }
-  dispatch(
-    addToCart(productData)
-  );
-  dispatch(toggleShopCardDrawer());
-};
-
+    };
+    dispatch(addToCart(productData));
+    dispatch(toggleShopCardDrawer());
+  };
 
   const handleVariantSelect = (variantId, attr) => {
     setSelectedVariant((prev) => {
@@ -107,6 +110,9 @@ export default function ProductInfo({ product, relatedProduct }) {
     });
   };
 
+  const handleWishlist = (product) => {
+    dispatch(addToWishlit(product));
+  };
   return (
     <>
       <div className="container mx-auto px-4 py-8">
@@ -198,20 +204,21 @@ export default function ProductInfo({ product, relatedProduct }) {
                 </div>
               </div>
               <div className="flex items-center gap-3 pb-3">
-                <Link
-                  href={"/"}
-                  className="flex items-center gap-2 text-black-base hover:text-black-muted duration-200"
+                <button
+                  onClick={() => handleWishlist(product)}
+                  className="flex items-center cursor-pointer gap-2 text-black-base hover:text-black-muted duration-200"
                 >
-                  <PiShareNetworkFill className="text-lg" />
-                  <span className="text-sm font-medium">Compare</span>
-                </Link>
-                <Link
-                  href={"/"}
-                  className="flex items-center gap-2 text-black-base hover:text-black-muted duration-200"
-                >
-                  <FaRegHeart className="text-lg" />
+                  {isWishlisted ? (
+                    <span className="text-black text-lg">
+                      <FaHeart />
+                    </span>
+                  ) : (
+                    <span className="text-black text-lg">
+                      <FaRegHeart />
+                    </span>
+                  )}
                   <span className="text-sm font-medium">Add to wishlist</span>
-                </Link>
+                </button>
               </div>
               <div className="pb-4 border-t border-gray-400">
                 <div className="text-black-muted text-sm pt-3 pb-4  space-y-3">

@@ -40,7 +40,7 @@ export default function OrderSummaryCard({
               </div>
             </div>
 
-            <span className="font-medium">$ {item?.base_price}</span>
+            <span className="font-medium">${item?.base_price}</span>
           </div>
         ))}
 

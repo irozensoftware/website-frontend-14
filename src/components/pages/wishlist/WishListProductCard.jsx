@@ -1,20 +1,16 @@
 "use client";
 import { addToCart } from "@/redux/features/cartSlice";
 import { toggleShopCardDrawer } from "@/redux/features/toggleSlice";
-import { addToWishlit } from "@/redux/features/wishlistSlice";
+import { removeFromWishlitCart } from "@/redux/features/wishlistSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
-import { IoSearchOutline } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { IoMdClose } from "react-icons/io";
+import { useDispatch } from "react-redux";
 
-const ProductCard = ({ product, isActive, onHover, onLeave }) => {
-  const { wish_products } = useSelector((status) => status.wishlist);
-  const isWishlisted = wish_products?.some((item) => item.id === product.id);
-
+const WishListProductCard = ({ product, isActive, onHover, onLeave }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const handleAddToCard = (product) => {
@@ -22,27 +18,28 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
       router.push(`/product/${product?.slug}`);
     } else {
       dispatch(addToCart(product));
-      dispatch(toggleShopCardDrawer());
+      dispatch(toggleShopCardDrawer())
     }
   };
-  const handleWishlist = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dispatch(addToWishlit(product));
+   const handleRemoveWishlist = (product) => {
+    dispatch(removeFromWishlitCart(product))
+   
   };
 
   return (
     <div
       onMouseEnter={onHover} // Call parent hover handler
       onMouseLeave={onLeave}
-      className={`  ${
-        isActive ? "scale-y-105 pb-5" : ""
-      }   transition-transform transform `}
+      className={`transition-transform border border-gray-200 p-1 transform `}
     >
       <div>
+        <div onClick={()=>handleRemoveWishlist(product)} className="flex pb-1 cursor-pointer  max-w-20 hover:opacity-60 duration-300 items-center gap-1 ">
+          <IoMdClose className="text-lg" />
+          <span className="text-sm font-medium">Remove</span>
+        </div>
         <Link
           href={`/product/${product?.slug}`}
-          className="max-h-62.5 relative group overflow-hidden"
+          className="max-h-62.5 relative overflow-hidden"
         >
           <Image
             width={250}
@@ -58,38 +55,6 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
             alt={product?.name}
             className={`w-full h-40 md:h-62.5 cursor-pointer object-fill transition-opacity duration-500 `}
           />
-          <div
-            className="absolute inset-0 flex items-center justify-center gap-3 
-                opacity-0 group-hover:opacity-100  z-10 transition-opacity duration-300"
-          >
-            {/* Wishlist */}
-            <button
-              onClick={handleWishlist}
-              className="bg-white cursor-pointer p-3 rounded-full shadow hover:scale-105 transition"
-              title="Add to Wishlist"
-            >
-              {isWishlisted ? (
-                <span className="text-black text-lg">
-                  <FaHeart />
-                </span>
-              ) : (
-                <span className="text-black text-lg">
-                  <FaRegHeart />
-                </span>
-              )}
-            </button>
-
-            {/* Quick View */}
-            <button
-              className="bg-white p-3 cursor-pointer rounded-full shadow hover:scale-105 transition"
-              title="Quick View"
-            >
-              <span className="text-black text-lg">
-                {" "}
-                <IoSearchOutline />
-              </span>
-            </button>
-          </div>
         </Link>
       </div>
       {/* Product Title */}
@@ -99,12 +64,9 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
         </h3>
       </Link>
 
-      <Link
-        href={`/product-category/${product?.category?.slug}`}
-        className="text-sm text-center block text-black-muted font-medium"
-      >
-        {product?.category?.name}
-      </Link>
+      <Link  href={`/product-category/${product?.category?.slug}`} className="text-sm text-center block text-black-muted font-medium">
+          {product?.category?.name}
+        </Link>
 
       {/* Price */}
       <div className="mt-2 gap-2 text-center">
@@ -127,4 +89,4 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
   );
 };
 
-export default ProductCard;
+export default WishListProductCard;

@@ -1,17 +1,15 @@
+"use client"
 import React from "react";
 import Link from "next/link";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-  FaYoutube,
-} from "react-icons/fa";
 import Image from "next/image";
 import { blogPosts } from "@/utils/db/blogs_data";
+import { useGetBlogsQuery } from "@/redux/api/commonApi";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const {data:allBlogs, error}=useGetBlogsQuery({limit:2});
+  console.log(allBlogs,'allBlogs')
+  console.log(error,'error')
 
   return (
     <footer className="bg-[#000000] text-white py-8">
@@ -37,22 +35,22 @@ const Footer = () => {
                 RECENT POSTS
               </h3>
               <ul className="space-y-4">
-                {blogPosts?.slice(0, 2)?.map((item, index) => (
+                {allBlogs?.data?.data?.slice(0, 2)?.map((item, index) => (
                   <li key={index}>
                     <Link
-                      href="/blog/the-ultimate-guide-to-10-piece-stainless-steel-nail-clipper-sets"
+                      href={`/blog/${item?.slug}`}
                       className="text-gray-300 hover:text-primary-base transition-colors duration-300 flex  gap-2 items-center"
                     >
                       <div>
                         <Image
                           className="rounded w-15 h-15"
-                          src={item?.image}
+                          src={`${process.env.NEXT_PUBLIC_API_URL}/storage/` + item?.image}
                           height={80}
                           width={80}
                           alt="pay"
                         ></Image>
                       </div>
-                      <span className="flex-1">{item?.title}</span>
+                      <p className="flex-1">{item?.title}</p>
                     </Link>
                   </li>
                 ))}
@@ -111,7 +109,7 @@ const Footer = () => {
                 {[
                   {
                     name: "Blog & Articles",
-                    path: "blogs",
+                    path: "blog",
                   },
                   {
                     name: "All Products",

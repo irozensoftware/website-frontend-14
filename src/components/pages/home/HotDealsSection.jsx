@@ -2,6 +2,7 @@
 
 import { useGetTodayHotDealsQuery } from "@/redux/api/commonApi";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
@@ -48,7 +49,10 @@ const HotDealsSection = () => {
                 key={deal.id}
                 className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 cursor-pointer"
               >
-                <div className="relative bg-gray-100 aspect-square overflow-hidden">
+                <Link
+                  href={`/product/${product?.slug}`}
+                  className="relative block bg-gray-100 aspect-square overflow-hidden"
+                >
                   <Image
                     src={imageSrc}
                     alt={product?.name || "Product"}
@@ -59,15 +63,21 @@ const HotDealsSection = () => {
                   <span className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                     HOT
                   </span>
-                </div>
+                </Link>
 
                 <div className="p-6">
-                  <p className="text-sm text-gray-500 mb-2">
+                  <Link
+                    href={`/product-category/${product?.category?.slug}`}
+                    className="text-sm text-gray-500 mb-2"
+                  >
                     {product?.category?.name}
-                  </p>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                  </Link>
+                  <Link
+                    href={`/product/${product?.slug}`}
+                    className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2"
+                  >
                     {product?.name}
-                  </h3>
+                  </Link>
                   <p className="text-2xl font-bold text-orange-500">
                     ${product?.base_price}
                   </p>

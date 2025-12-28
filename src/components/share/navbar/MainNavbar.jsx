@@ -21,10 +21,9 @@ const MainNavbar = () => {
   const { data } = useGetBannerQuery();
   const banner = data?.data;
   const product = banner?.product;
-  console.log(banner, "ddddddddddd");
-  console.log(product, "product");
   const [activeSidebar, setActiveSidebar] = useState(false);
   const { selectedItems } = useSelector((status) => status.carts);
+  const { wish_products } = useSelector((status) => status.wishlist);
   const dispatch = useDispatch();
   const path = usePathname();
   const { data: allCategory } = useGetAllCategoryQuery();
@@ -68,15 +67,15 @@ const MainNavbar = () => {
                 <p>Login/Register</p>
               </Link>
 
-              <div
-                onClick={() => dispatch(toggleShopCardDrawer())}
+              <Link
+               href={'/wishlist'}
                 className="relative cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
                 <FaRegHeart className="text-[18px]" />
                 <span className="absolute -top-1 -right-1 bg-primary-base text-white text-[10px] rounded-full px-1">
-                  {selectedItems}
+                  {wish_products?.length}
                 </span>
-              </div>
+              </Link>
              
               <Link href={'/cart'}
                 onClick={() => dispatch(toggleShopCardDrawer())}

@@ -77,6 +77,12 @@ export const commonApi = baseApi.injectEndpoints({
         method: "GET"
       }),
     }),
+     getOrderBuyInvoice:build.query({
+      query: (invoice) => ({
+        url: `/get-order/${invoice}`,
+        method: "GET"
+      }),
+    }),
   }),
 });
 
@@ -92,5 +98,6 @@ export const {
   useGetAllBlogCategoryQuery,
   useGetBlogsQuery,
   useGetBlogBySlugQuery,
-  useGetBlogByCategoryQuery
+  useGetBlogByCategoryQuery,
+  useGetOrderBuyInvoiceQuery
 } = commonApi;

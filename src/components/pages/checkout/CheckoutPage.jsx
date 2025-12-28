@@ -1,28 +1,29 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
 import OrderSummaryCard from "./OrderSummaryCard";
 import { useForm } from "react-hook-form";
 import { useCreateOrderMutation } from "@/redux/api/orderApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { clearCart } from "@/redux/features/cartSlice";
 
 const CheckoutPage = () => {
   const pathName = usePathname();
   const [createOrder,{isLoading}]=useCreateOrderMutation();
   const { totalPrice, products } = useSelector((state) => state.carts);
-  console.log("Products in CheckoutPage:", products);
-
+ const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
     watch,
+    setValue,
     formState: { errors },
   } = useForm();
-
+  const dispatch = useDispatch();
   const onSubmit =async (data) => {
     try{
        const total_quantity = products.reduce(
@@ -36,13 +37,12 @@ const CheckoutPage = () => {
           total_quantity,
           products: products,
         }
-        console.log("Order Data to be sent:", newData);
       const res = await createOrder(newData).unwrap();
-      console.log("Order creation response:", res,'rder creation response:');
-
       if(res?.success){
+         dispatch(clearCart())
         toast.success("Order placed successfully!");
         reset();
+        router.push(`/complete-order?order_id=${res?.order?.invoice}`)
       }else{
         toast.error(res?.message || "Failed to place order. Please try again.");
       }
@@ -51,6 +51,9 @@ const CheckoutPage = () => {
     }
   };
 
+  useEffect(() => {
+    setValue("payment_method", "cod");
+  }, [setValue]);
   return (
     <>
       {/* Header */}

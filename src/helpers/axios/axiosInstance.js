@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import axios from "axios";
+import Cookies from "js-cookie";
 
 // Create an instance of axios
 const instance = axios.create();
@@ -15,12 +16,11 @@ instance.defaults.timeout = 60000;
 
 // Add a request interceptor
 instance.interceptors.request.use(
-  function (config) {
-    // Do something before the request is sent
-    // const accessToken = getFromLocalStorage(authKey);
-    // if (accessToken) {
-    //   config.headers.Authorization = `Bearer ${accessToken}`;
-    // }
+   function (config) {
+    const token = Cookies.get("auth_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {
