@@ -9,9 +9,15 @@ export const commonApi = baseApi.injectEndpoints({
         data: data,
       }),
     }),
-     getMyAllOrder: build.query({
+    getMyAllOrder: build.query({
       query: () => ({
         url: `/my-orders`,
+        method: "GET",
+      }),
+    }),
+    getAboutUs: build.query({
+      query: () => ({
+        url: `/about-us`,
         method: "GET",
       }),
     }),
@@ -19,6 +25,7 @@ export const commonApi = baseApi.injectEndpoints({
 });
 
 export const {
-    useCreateOrderMutation,
-    useGetMyAllOrderQuery
+  useCreateOrderMutation,
+  useGetMyAllOrderQuery,
+  useGetAboutUsQuery,
 } = commonApi;

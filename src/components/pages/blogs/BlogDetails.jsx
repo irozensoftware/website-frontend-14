@@ -116,7 +116,7 @@ export default function BlogPost({ slug }) {
                         className="object-cover rounded-md w-full h-20"
                       />
                     </div>
-                    <div>
+                    <div className="w-fit">
                       <Link
                         href={`/blog/${post?.slug}`}
                         className="font-bold text-gray-900 mb-2 hover:text-amber-600 transition"

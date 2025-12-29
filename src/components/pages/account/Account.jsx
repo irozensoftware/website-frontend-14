@@ -7,11 +7,9 @@ import React from "react";
 import toast from "react-hot-toast";
 import {
   FaFileAlt,
-  FaDownload,
   FaMapMarkerAlt,
   FaUser,
   FaHeart,
-  FaSignOutAlt,
   FaExclamationCircle,
 } from "react-icons/fa";
 
@@ -20,14 +18,12 @@ const MyAccount = () => {
   console.log(profile,'profile')
   const router = useRouter();
   const dashboardCards = [
-    { title: "Orders", icon: <FaFileAlt className="w-12 h-12" /> },
-    { title: "Downloads", icon: <FaDownload className="w-12 h-12" /> },
-    { title: "Addresses", icon: <FaMapMarkerAlt className="w-12 h-12" /> },
-    { title: "Account details", icon: <FaUser className="w-12 h-12" /> },
-    { title: "Wishlist", icon: <FaHeart className="w-12 h-12" /> },
-    { title: "Logout", icon: <FaSignOutAlt className="w-12 h-12" /> },
-  ];
+    { title: "Orders", path: "/account/orders", icon: <FaFileAlt className="w-12 h-12" /> },
+    { title: "Addresses", path: "/account/edit-address",  icon: <FaMapMarkerAlt className="w-12 h-12" /> },
+    { title: "Account details", path: "/account/edit-account", icon: <FaUser className="w-12 h-12" /> },
+    { title: "Wishlist",path: "/account/wishlist", icon: <FaHeart className="w-12 h-12" /> },
 
+  ];
   const handleLogout = () => {
     removeAuthToken();
     router.push("/login");
@@ -88,9 +84,8 @@ const MyAccount = () => {
       {/* Dashboard Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {dashboardCards.map((card, index) => (
-          <button
+          <Link href={card.path}
             key={index}
-            onClick={() => setActiveTab(card.title)}
             className="bg-white cursor-pointer p-6 sm:p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col items-center justify-center gap-4 group"
           >
             <div className="text-gray-400 group-hover:text-gray-600 transition-colors">
@@ -99,7 +94,7 @@ const MyAccount = () => {
             <h3 className="text-base sm:text-lg font-medium text-gray-900">
               {card.title}
             </h3>
-          </button>
+          </Link>
         ))}
       </div>
     </div>

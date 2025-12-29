@@ -11,7 +11,6 @@ import WishListProductCard from "./WishListProductCard";
 const Wishlist = () => {
   const { wish_products } = useSelector((status) => status.wishlist);
   const [activeIndex, setActiveIndex] = useState(null);
-  console.log(wish_products, "wish_products");
   return (
     <div>
       <div className="bg-black py-10 text-white space-y-3 px-2 text-center">

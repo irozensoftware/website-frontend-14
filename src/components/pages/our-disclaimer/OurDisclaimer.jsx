@@ -1,15 +1,15 @@
 "use client";
 import CommonPost from "@/components/common/CommonPost";
-import { useGetPackagingQuery } from "@/redux/api/commonApi";
+import { useGetDisclaimerQuery } from "@/redux/api/commonApi";
 import React from "react";
-const Packaging = () => {
-  const { data } = useGetPackagingQuery();
+const OurDisclaimer = () => {
+  const { data } = useGetDisclaimerQuery();
   return (
     <div>
       <div className="bg-black text-white flex py-7 justify-center flex-col items-center">
-        <h1 className="text-3xl md:text-5xl mb-2">Packaging</h1>
+        <h1 className="text-3xl md:text-5xl mb-2">Disclaimer</h1>
         <p className="text-sm text-black-muted">
-          Home / <strong>Packaging</strong>
+          Home / <strong>Disclaimer</strong>
         </p>
       </div>
       <div className="container py-10">
@@ -28,4 +28,4 @@ const Packaging = () => {
   );
 };
 
-export default Packaging;
+export default OurDisclaimer;

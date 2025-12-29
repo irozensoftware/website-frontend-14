@@ -83,6 +83,42 @@ export const commonApi = baseApi.injectEndpoints({
         method: "GET"
       }),
     }),
+     getDisclaimer: build.query({
+      query: () => ({
+        url: `/disclaimer`,
+        method: "GET",
+      }),
+    }),
+     getPackaging: build.query({
+      query: () => ({
+        url: `/packaging`,
+        method: "GET",
+      }),
+    }),
+     getConditions: build.query({
+      query: () => ({
+        url: `/terms-conditions`,
+        method: "GET",
+      }),
+    }),
+     getShoppingPolicy: build.query({
+      query: () => ({
+        url: `/shipping-policy`,
+        method: "GET",
+      }),
+    }),
+    getPrivacyPolicy: build.query({
+      query: () => ({
+        url: `/privacy-policy`,
+        method: "GET",
+      }),
+    }),
+     getReturnAndRefund: build.query({
+      query: () => ({
+        url: `/return-and-refund`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -99,5 +135,11 @@ export const {
   useGetBlogsQuery,
   useGetBlogBySlugQuery,
   useGetBlogByCategoryQuery,
-  useGetOrderBuyInvoiceQuery
+  useGetOrderBuyInvoiceQuery,
+  useGetDisclaimerQuery,
+  useGetPackagingQuery,
+  useGetConditionsQuery,
+  useGetShoppingPolicyQuery,
+  useGetPrivacyPolicyQuery,
+  useGetReturnAndRefundQuery
 } = commonApi;

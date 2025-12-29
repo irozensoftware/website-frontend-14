@@ -26,7 +26,7 @@ const Register = () => {
         setAuthToken(res.token); // ✅ cookie set
         toast.success("Rgister Success successfully!");
         reset();
-        router.push(`/complete-order?order_id=${res?.order?.invoice}`);
+        router.push(`/account`);
       } else {
         toast.error(res?.message || "Failed to place order. Please try again.");
       }

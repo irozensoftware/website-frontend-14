@@ -1,43 +1,56 @@
 "use client";
+import { removeAuthToken } from "@/utils/authCookie";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { 
-  FaFileAlt, 
-  FaDownload, 
-  FaMapMarkerAlt, 
-  FaUser, 
-  FaHeart, 
+import {
+  FaFileAlt,
+  FaDownload,
+  FaMapMarkerAlt,
+  FaUser,
+  FaHeart,
   FaSignOutAlt,
   FaBars,
   FaTimes,
 } from "react-icons/fa";
 
-const AccountLayout = ({children}) => {
-   const pathname=usePathname();
+const AccountLayout = ({ children }) => {
+  const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Dashboard");
-
+  const router = useRouter();
   const menuItems = [
-    { name: "Dashboard", path:"/account", icon: null },
-    { name: "Orders",path:"/account/orders", icon: <FaFileAlt /> },
-    { name: "Addresses",path:"/account/edit-address", icon: <FaMapMarkerAlt /> },
-    { name: "Account details",path:"/account/edit-account", icon: <FaUser /> },
-    { name: "Wishlist",path:"/account/wishlist", icon: <FaHeart /> },
-
+    { name: "Dashboard", path: "/account", icon: null },
+    { name: "Orders", path: "/account/orders", icon: <FaFileAlt /> },
+    {
+      name: "Addresses",
+      path: "/account/edit-address",
+      icon: <FaMapMarkerAlt />,
+    },
+    {
+      name: "Account details",
+      path: "/account/edit-account",
+      icon: <FaUser />,
+    },
+    { name: "Wishlist", path: "/account/wishlist", icon: <FaHeart /> },
   ];
-    // { name: "Logout",path:"account", icon: <FaSignOutAlt /> },
+
+  const handleLogout = () => {
+    removeAuthToken();
+    router.push("/login");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-       <div className="bg-black py-10 text-white space-y-3 px-2 text-center">
-        <h1 className="text-xl md:text-3xl xl:text-5xl font-bold">My Account</h1>
+      <div className="bg-black py-10 text-white space-y-3 px-2 text-center">
+        <h1 className="text-xl md:text-3xl xl:text-5xl font-bold">
+          My Account
+        </h1>
         <div className="flex justify-center gap-2">
           <Link href={"/account"} className="text-gray-300">
             Home
-          </Link>{""}
-          /<p className="font-bold">My Account</p>
+          </Link>
+          {""}/<p className="font-bold">My Account</p>
         </div>
       </div>
 
@@ -70,7 +83,6 @@ const AccountLayout = ({children}) => {
                   <Link
                     href={item.path}
                     key={index}
-                   
                     className={`w-full text-left px-4 py-3 rounded-md transition-colors cursor-pointer flex items-center gap-3 ${
                       pathname === item.path
                         ? "bg-primary-muted text-gray-900 font-medium"
@@ -83,16 +95,22 @@ const AccountLayout = ({children}) => {
                     <span className="text-sm sm:text-base">{item.name}</span>
                   </Link>
                 ))}
+                <button
+                  onClick={handleLogout}
+                  className={`w-full text-left px-4 py-3 rounded-md transition-colors cursor-pointer flex items-center gap-3 text-gray-700 hover:bg-gray-50
+                     `}
+                >
+                  <FaSignOutAlt className="text-gray-500" />
+                  <span className="text-sm sm:text-base">Logout</span>
+                </button>
               </nav>
             </div>
           </div>
-         {children}
+          {children}
         </div>
       </div>
     </div>
   );
 };
 
-
-
-export default AccountLayout
+export default AccountLayout;

@@ -16,13 +16,15 @@ import {
   useGetAllCategoryQuery,
   useGetBannerQuery,
 } from "@/redux/api/commonApi";
+import { useGetProfileQuery } from "@/redux/api/authApi";
 
 const MainNavbar = () => {
   const { data } = useGetBannerQuery();
   const banner = data?.data;
+  const { data: profileData } = useGetProfileQuery();
   const product = banner?.product;
   const [activeSidebar, setActiveSidebar] = useState(false);
-  const { selectedItems } = useSelector((status) => status.carts);
+  const { selectedItems,totalPrice } = useSelector((status) => status.carts);
   const { wish_products } = useSelector((status) => status.wishlist);
   const dispatch = useDispatch();
   const path = usePathname();
@@ -59,16 +61,29 @@ const MainNavbar = () => {
               <NavbarSearch />
             </div>
             {/* Action Icons */}
-            <div className="flex items-center space-x-6 text-black-base">
-              <Link
-                href={"/login"}
-                className="hidden lg:block text-sm  hover:text-black-base uppercase font-medium text-black-muted duration-200"
-              >
-                <p>Login/Register</p>
-              </Link>
+            <div className="flex items-center space-x-4 text-black-base">
+            
+                {profileData?.email ? (
+                  <div>
+                    {" "}
+                    <Link
+                      href={"/account"}
+                      className="hidden lg:block text-sm  hover:text-black-base uppercase font-medium text-black-muted duration-200"
+                    >
+                      <p>My Account</p>
+                    </Link>
+                  </div>
+                ) : (
+                  <Link
+                    href={"/login"}
+                    className="hidden lg:block text-sm  hover:text-black-base uppercase font-medium text-black-muted duration-200"
+                  >
+                    <p>Login/Register</p>
+                  </Link>
+                )}
 
               <Link
-               href={'/wishlist'}
+                href={"/wishlist"}
                 className="relative cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
                 <FaRegHeart className="text-[18px]" />
@@ -76,8 +91,9 @@ const MainNavbar = () => {
                   {wish_products?.length}
                 </span>
               </Link>
-             
-              <Link href={'/cart'}
+
+              <Link
+                href={"/cart"}
                 onClick={() => dispatch(toggleShopCardDrawer())}
                 className="relative hidden md:block cursor-pointer  text-black-base hover:text-black-muted duration-200"
               >
@@ -86,6 +102,7 @@ const MainNavbar = () => {
                   {selectedItems}
                 </span>
               </Link>
+              <p className="hover:text-black-muted cursor-pointer">${totalPrice}</p>
             </div>
           </div>
         </div>
@@ -161,11 +178,9 @@ const MainNavbar = () => {
                   {product?.category?.name}
                 </p>
                 <h1 className="text-xl md:text-6xl text-black font-bold leading-tight mt-2">
-                 {product?.name}
+                  {product?.name}
                 </h1>
-                <p className="text-black-muted mt-4">
-                  {banner?.name}
-                </p>
+                <p className="text-black-muted mt-4">{banner?.name}</p>
                 <div className="mt-6">
                   <Link
                     href={`product/${product?.slug}`}
@@ -178,9 +193,11 @@ const MainNavbar = () => {
 
               <div className="order-1 md:order-2 flex justify-center pt-4">
                 <Image
-                  src={product?.primary_image?.image
-              ? `${process.env.NEXT_PUBLIC_API_URL}/storage/${product.primary_image.image}`
-              : "/placeholder.png"}
+                  src={
+                    product?.primary_image?.image
+                      ? `${process.env.NEXT_PUBLIC_API_URL}/storage/${product.primary_image.image}`
+                      : "/placeholder.png"
+                  }
                   alt="Car Mobile Holder"
                   width={400}
                   height={400}
