@@ -1,12 +1,14 @@
-import AboutUs from '@/components/about-us/AboutUs'
-import React from 'react'
 
-const page = () => {
-  return (
-    <>
-      <AboutUs/>
-    </>
-  )
+import AboutUs from '@/components/about-us/AboutUs';
+export async function generateMetadata() {
+  return {
+    title: "About Us",
+    description:"Learn more about us",
+  };
 }
 
-export default page
+const AboutPage = () => {
+  return <AboutUs />;
+};
+
+export default AboutPage;

@@ -61,13 +61,13 @@ const ShopPage = () => {
                       height={300}
                       alt={item?.name}
                       src={`${process.env.NEXT_PUBLIC_API_URL}/storage/${item?.image}`}
-                      className="w-full h-40 md:h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-30 sm:h-35 md:h-48 object-cover transition-transform duration-500 group-hover:scale-105"
                     />    
                   </div>
 
                   {/* Category Name Only */}
                   <div className="p-4 text-center">
-                    <h3 className="text-base font-medium text-gray-800 transition-colors group-hover:text-blue-600">
+                    <h3 className="text-base font-medium text-gray-800 transition-colors group-hover:text-primary-base">
                       {item?.name}
                     </h3>
                   </div>

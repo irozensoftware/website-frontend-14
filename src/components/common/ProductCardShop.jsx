@@ -23,7 +23,7 @@ const ProductCardShop = ({ product, isActive, onHover, onLeave }) => {
     }
   };
 
-  const handleWishlist = () => {
+  const handleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
     dispatch(addToWishlit(product));

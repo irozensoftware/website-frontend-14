@@ -2,15 +2,14 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { blogPosts } from "@/utils/db/blogs_data";
 import { useGetBlogsQuery } from "@/redux/api/commonApi";
+import { useGetAboutUsQuery } from "@/redux/api/orderApi";
+import { emptyImage } from "@/utils/image";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const {data:allBlogs, error}=useGetBlogsQuery({limit:2});
-  console.log(allBlogs,'allBlogs')
-  console.log(error,'error')
-
+   const { data: aboutInfo } = useGetAboutUsQuery();
   return (
     <footer className="bg-[#000000] text-white py-8">
       <div className="">
@@ -21,8 +20,10 @@ const Footer = () => {
               <div className="flex space-x-2">
                 <Image
                   src={
-                    "https://mukitalillc.com/wp-content/uploads/2021/09/theonebrandstore.com-1-220x220.png"
-                  }
+                  aboutInfo?.data?.footer_logo
+                    ? `${process.env.NEXT_PUBLIC_API_URL}/storage/images/${aboutInfo.data.footer_logo}`
+                    : emptyImage
+                }
                   height={150}
                   width={250}
                   alt="pay"
@@ -74,7 +75,7 @@ const Footer = () => {
                   },
                   {
                     name: "Our Disclaimer",
-                    path: "our-disclamier",
+                    path: "our-disclaimer",
                   },
                   {
                     name: "Privacy Policy",
@@ -150,7 +151,7 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-center mb-4 md:mb-0">
                 <p className="text-gray-400">
-                  Based in USA • All Rights © {currentYear} Multi AI LLC
+                  Based in USA • All Rights © {currentYear} {aboutInfo?.data?.name}
                 </p>
               </div>
 

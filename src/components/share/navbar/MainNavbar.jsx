@@ -11,24 +11,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleShopCardDrawer } from "@/redux/features/toggleSlice";
 import { FaChevronDown, FaRegHeart } from "react-icons/fa";
 import { menuDB } from "@/utils/db/menuDB";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   useGetAllCategoryQuery,
   useGetBannerQuery,
 } from "@/redux/api/commonApi";
 import { useGetProfileQuery } from "@/redux/api/authApi";
+import { useGetAboutUsQuery } from "@/redux/api/orderApi";
+import { emptyImage } from "@/utils/image";
+import { removeAuthToken } from "@/utils/authCookie";
+import toast from "react-hot-toast";
 
 const MainNavbar = () => {
   const { data } = useGetBannerQuery();
   const banner = data?.data;
+  const { data: aboutInfo } = useGetAboutUsQuery();
   const { data: profileData } = useGetProfileQuery();
   const product = banner?.product;
   const [activeSidebar, setActiveSidebar] = useState(false);
-  const { selectedItems,totalPrice } = useSelector((status) => status.carts);
+  const { selectedItems, totalPrice } = useSelector((status) => status.carts);
   const { wish_products } = useSelector((status) => status.wishlist);
   const dispatch = useDispatch();
   const path = usePathname();
   const { data: allCategory } = useGetAllCategoryQuery();
+   const router = useRouter()
+  const handleLogout = () => {
+    removeAuthToken();
+    router.replace("/login");
+    toast.success("Logout successfully")
+  };
 
   return (
     <>
@@ -45,11 +56,15 @@ const MainNavbar = () => {
             </div>
             <Link href={"/"} className="flex items-center">
               <Image
-                src="https://mukitalillc.com/wp-content/uploads/2025/09/rigato-10.png" // Replace with your logo path
-                alt="Falaq Food"
+                src={
+                  aboutInfo?.data?.navbar_logo
+                    ? `${process.env.NEXT_PUBLIC_API_URL}/storage/images/${aboutInfo.data.navbar_logo}`
+                    : emptyImage
+                }
+                alt="Logo"
                 width={150}
-                height={150}
-                className="  w-30 lg:w-52  object-contain"
+                height={60}
+                className="w-30  max-h-15 lg:w-52 object-contain"
               />
             </Link>
 
@@ -61,26 +76,88 @@ const MainNavbar = () => {
               <NavbarSearch />
             </div>
             {/* Action Icons */}
-            <div className="flex items-center space-x-4 text-black-base">
-            
-                {profileData?.email ? (
-                  <div>
-                    {" "}
-                    <Link
-                      href={"/account"}
-                      className="hidden lg:block text-sm  hover:text-black-base uppercase font-medium text-black-muted duration-200"
-                    >
-                      <p>My Account</p>
-                    </Link>
-                  </div>
-                ) : (
+            <div className="flex items-center   group space-x-4 text-black-base">
+              {profileData?.email ? (
+                <div className="relative">
+                  {" "}
                   <Link
-                    href={"/login"}
+                    href={"/account"}
                     className="hidden lg:block text-sm  hover:text-black-base uppercase font-medium text-black-muted duration-200"
                   >
-                    <p>Login/Register</p>
+                    <p>My Account</p>
                   </Link>
-                )}
+                  <div
+                    className="
+          absolute left-0 top-full mt-2 w-48
+          bg-white border border-gray-200 shadow-lg
+          opacity-0 invisible
+          group-hover:opacity-100 group-hover:visible
+          transition-all duration-200
+          z-50
+        "
+                  >
+                    <ul className="py-2 text-sm text-gray-700">
+                      <li>
+                        <Link
+                          href="/account"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Dashboard
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/account/orders"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Orders
+                        </Link>
+                      </li>
+                      
+                      <li>
+                        <Link
+                          href="/account/edit-address"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Addresses
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/account/edit-account"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Account details
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/wishlist"
+                          className="block px-4 py-2 hover:bg-gray-100"
+                        >
+                          Wishlist
+                        </Link>
+                      </li>
+
+                      <li className="border-t border-gray-200 mt-2">
+                        <button
+                          onClick={()=>handleLogout()}
+                          className="w-full cursor-pointer text-left px-4 py-2 hover:bg-gray-100 text-red-500"
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  href={"/login"}
+                  className="hidden lg:block text-sm  hover:text-black-base uppercase font-medium text-black-muted duration-200"
+                >
+                  <p>Login/Register</p>
+                </Link>
+              )}
 
               <Link
                 href={"/wishlist"}
@@ -102,7 +179,9 @@ const MainNavbar = () => {
                   {selectedItems}
                 </span>
               </Link>
-              <p className="hover:text-black-muted cursor-pointer">${totalPrice}</p>
+              <p className="hover:text-black-muted cursor-pointer">
+                ${totalPrice}
+              </p>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { removeAuthToken } from "@/utils/authCookie";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import {
   FaFileAlt,
   FaDownload,
@@ -37,6 +38,7 @@ const AccountLayout = ({ children }) => {
   const handleLogout = () => {
     removeAuthToken();
     router.push("/login");
+    toast.success("Logout successfully")
   };
 
   return (

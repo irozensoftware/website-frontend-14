@@ -1,35 +1,56 @@
-"use client"
+"use client";
+
+import Loader from "@/components/common/Loader";
 import ProductCardShop from "@/components/common/ProductCardShop";
-import { useGetProductByCategoryWiseQuery } from "@/redux/api/commonApi";
-import { products } from "@/utils/db/ProductDB";
+import { useGetSearchProductQuery } from "@/redux/api/orderApi";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { BsFillGrid3X3GapFill, BsGrid } from "react-icons/bs";
 import { FaBars } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { TfiLayoutGrid4Alt } from "react-icons/tfi";
 
-const ProductCategory = ({ slug }) => {
-  const [searchValue, setSearchValue] = useState({
-    slug: slug,
-  });
-  const {data:productData}=useGetProductByCategoryWiseQuery(searchValue);
+const SearchProduct = () => {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || "";
   const [activeIndex, setActiveIndex] = useState(null); // To manage hover state
   const [activeGrid, setActiveGrid] = useState("4");
+  const { data, isLoading, isFetching } = useGetSearchProductQuery(
+    { search },
+    {
+      skip: !search, // ✅ search না থাকলে query skip
+    }
+  );
+
+ if (!search) {
+    return (
+      <div className="p-6 text-center text-gray-500">
+        Please search for a product
+      </div>
+    );
+  }
+
+  if (isLoading || isFetching) {
+    return <Loader fullScreen text="Searching products..." />;
+  }
+
+
+  if (data?.data.length<0) {
+    return (
+      <div className="p-6 text-center text-gray-500">
+        No products found for “{search}”
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="bg-black py-8 text-white space-y-3 px-2 text-center">
-        <div className="text-xl flex justify-center items-center gap-5">
-          <Link href={"/"} className="text-gray-300 mt-1">
-            <MdOutlineKeyboardBackspace className="text-[30px]" />
-          </Link>{" "}
-          <h1 className="md:text-3xl xl:text-5xl font-bold capitalize">
-            {productData?.productCategory?.name}
-          </h1>
-        </div>
+     <div className="bg-black py-10 text-white space-y-3 px-2 text-center">
+        <h1 className="text-xl md:text-3xl xl:text-5xl font-bold">Search Product</h1>
+       
       </div>
-      <div className="container">
+          <div className="container">
         <div className="flex items-center justify-between border-b py-4 border-gray-200">
           <div className="flex items-center text-base text-gray-600">
             <Link href={`/`} className="hover:text-black-base cursor-pointer">
@@ -43,15 +64,15 @@ const ProductCategory = ({ slug }) => {
               Shop
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-primary-base font-medium">{productData?.productCategory?.name}</span>
+            <span className="text-primary-base font-medium">{search}</span>
           </div>
         </div>
         <div className="flex justify-between gap-1">
-          <button className="flex items-center gap-2 py-2   rounded-md hover:bg-primary-dark transition">
+          <button className=" flex items-center gap-2 py-2   rounded-md hover:bg-primary-dark transition">
             <FaBars />
-            <span className=" hidden md:block font-medium text-black-muted">Show Sidebar</span>
+            <span className="font-medium text-black-muted">Show Sidebar</span>
           </button>
-          <div className="flex items-center gap-5">
+          <div className=" flex items-center gap-5">
             <div className=" hidden md:flex items-center gap-2">
               <button
                 onClick={() => setActiveGrid("2")}
@@ -100,7 +121,7 @@ const ProductCategory = ({ slug }) => {
         <div
           className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${activeGrid} gap-6`}
         >
-          {productData?.data?.data?.map((product, index) => (
+          {data?.data?.map((product, index) => (
             <ProductCardShop
               key={index}
               product={product}
@@ -116,4 +137,4 @@ const ProductCategory = ({ slug }) => {
   );
 };
 
-export default ProductCategory;
+export default SearchProduct;

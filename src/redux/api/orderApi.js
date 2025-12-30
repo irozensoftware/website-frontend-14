@@ -21,6 +21,19 @@ export const commonApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSearchProduct: build.query({
+      query: (arg) => ({
+        url: `/get-product-by-search`,
+        method: "GET",
+        params:arg
+      }),
+    }),
+    getMarketingProduct: build.query({
+      query: () => ({
+        url: `/marketing-product`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -28,4 +41,6 @@ export const {
   useCreateOrderMutation,
   useGetMyAllOrderQuery,
   useGetAboutUsQuery,
+  useGetSearchProductQuery,
+  useGetMarketingProductQuery
 } = commonApi;

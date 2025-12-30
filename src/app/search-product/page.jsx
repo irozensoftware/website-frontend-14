@@ -1,15 +1,15 @@
-import Register from '@/components/auth/register/Register'
+import SearchProduct from '@/components/pages/search-product/SearchProduct'
 import React from 'react'
 export async function generateMetadata() {
   return {
-    title: "Register",
+    title: "Search product",
     description:"Learn more Register",
   };
 }
 const page = () => {
   return (
     <>
-      <Register/>
+      <SearchProduct/>
     </>
   )
 }

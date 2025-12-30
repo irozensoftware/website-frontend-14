@@ -1,15 +1,21 @@
 "use client";
 import { useGetAllCategoryQuery } from "@/redux/api/commonApi";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useRef } from "react";
 import { IoSearchOutline, IoChevronDownOutline } from "react-icons/io5";
-
-
 const NavbarSearch = () => {
+  const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Accessories");
   const dropdownRef = useRef(null);
- const {data:allCategory}=useGetAllCategoryQuery();
+  const { data: allCategory } = useGetAllCategoryQuery();
+  const router = useRouter();
+  const handleOnEnter = () => {
+    if (!search.trim()) return; // empty search prevent
+    router.replace(`/search-product?search=${encodeURIComponent(search)}`);
+  };
+
   // Close dropdown on outside click
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -25,9 +31,17 @@ const NavbarSearch = () => {
     <div className="flex items-center border-2 focus-within:border-primary-base border-black-muted rounded-full relative">
       <input
         type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleOnEnter();
+          }
+        }}
         placeholder="Search for products"
         className="px-4 placeholder:text-primary-base text-black-muted w-37.5 xl:w-64 text-sm focus:outline-none"
       />
+
       <div
         ref={dropdownRef}
         className="border-l border-black-muted px-2 py-2 relative"
@@ -53,7 +67,8 @@ const NavbarSearch = () => {
         >
           <ul className="space-y-2">
             {allCategory?.data?.map((item, index) => (
-               <Link href={`/product-category/${item?.slug}`}
+              <Link
+                href={`/product-category/${item?.slug}`}
                 onClick={() => {
                   setSelectedCategory(item?.name);
                   setActiveCategory(false);

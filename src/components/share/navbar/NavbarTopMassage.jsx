@@ -1,12 +1,14 @@
-"use client"
+"use client";
 import { useGetAboutUsQuery } from "@/redux/api/orderApi";
+import Link from "next/link";
 import React from "react";
 import { FaFacebookF, FaTwitter } from "react-icons/fa";
-import { SiInstagram, SiYoutube } from "react-icons/si";
+import { SiLinkedin, SiYoutube } from "react-icons/si";
 
 const NavbarTopMassage = () => {
-    const{data}=useGetAboutUsQuery();
-    const about =data?.data
+  const { data } = useGetAboutUsQuery();
+  const about = data?.data;
+  console.log(about, "about");
   return (
     <div className="bg-primary-base">
       <div className="container">
@@ -18,10 +20,38 @@ const NavbarTopMassage = () => {
           </div>
           <div className="flex border-r border-white pr-1 items-center justify-center lg:justify-start   gap-2">
             <div className="text-white text-xm  md:text-sm flex items-center gap-2">
-              <FaFacebookF className="text-[14px] cursor-pointer" />
-              <SiYoutube className="text-[14px] cursor-pointer" />
-              <SiInstagram className="text-[14px] cursor-pointer" />
-              <FaTwitter className="text-[14px] cursor-pointer" />
+              <Link
+                target="_blank"
+                href={`${
+                  about?.facebook ? about?.facebook : "https://www.facebook.com"
+                }`}
+              >
+                <FaFacebookF className="text-[14px] cursor-pointer" />
+              </Link>
+              <Link
+                target="_blank"
+                href={`${
+                  about?.youtube ? about?.youtube : "https://www.youtube.com"
+                }`}
+              >
+                <SiYoutube className="text-[14px] cursor-pointer" />
+              </Link>
+              <Link
+                target="_blank"
+                href={`${
+                  about?.linkedin ? about?.linkedin : "https://www.linkedin.com"
+                }`}
+              >
+                <SiLinkedin className="text-[14px] cursor-pointer" />
+              </Link>
+              <Link
+                target="_blank"
+                href={`${
+                  about?.twitter ? about?.twitter : "https://www.twitter.com"
+                }`}
+              >
+                <FaTwitter className="text-[14px] cursor-pointer" />
+              </Link>
             </div>
           </div>
         </div>
