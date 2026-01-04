@@ -6,7 +6,6 @@ export const axiosBaseQuery =
   // Async function to execute the axios query
   async ({ url, method, data, params, headers, contentType }) => {
     try {
-      // Execute the axios instance with provided parameters
       const result = await axiosInstance({
         // Concatenate baseUrl with provided url
         url: baseUrl + url,
@@ -17,11 +16,9 @@ export const axiosBaseQuery =
         params,
         // URL parameters
         headers: {
-          // Set Content-Type header, defaulting to "application/json" if not provided
           "Content-Type": contentType || "application/json",
           ...headers,
         },
-        // meta use pagination limit ,pageNumber,totalData
          
       });
 
