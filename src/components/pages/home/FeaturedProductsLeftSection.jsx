@@ -7,7 +7,6 @@ import { FaHeart, FaShoppingCart } from "react-icons/fa";
 
 const FeaturedProductsSection = () => {
   const { data } = useGetTopPricingProductQuery();
-  console.log("Top Pricing Products:", data);
 
   const products = data?.data || [];
   const product = data?.topProductByCategory || [];

@@ -5,9 +5,10 @@ import Link from "next/link";
 import React from "react";
 
 const BlogPage = () => {
-    const { data } = useGetBlogsQuery();
+    const { data, error } = useGetBlogsQuery();
     const blogPostds = data?.data?.data || [];
     console.log(blogPostds, "blogPostds");
+    console.log(error, "error");
   return (
     <>
       <div className="bg-black py-10 text-white space-y-3 px-2 text-center">

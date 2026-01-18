@@ -25,7 +25,9 @@ import toast from "react-hot-toast";
 const MainNavbar = () => {
   const { data } = useGetBannerQuery();
   const banner = data?.data;
-  const { data: aboutInfo } = useGetAboutUsQuery();
+  console.log(banner,'banner')
+  const { data: aboutInfoData } = useGetAboutUsQuery();
+  const aboutInfo=aboutInfoData;
   const { data: profileData } = useGetProfileQuery();
   const product = banner?.product;
   const [activeSidebar, setActiveSidebar] = useState(false);
@@ -88,13 +90,13 @@ const MainNavbar = () => {
                   </Link>
                   <div
                     className="
-          absolute left-0 top-full mt-2 w-48
-          bg-white border border-gray-200 shadow-lg
-          opacity-0 invisible
-          group-hover:opacity-100 group-hover:visible
-          transition-all duration-200
-          z-50
-        "
+                  absolute left-0 top-full mt-2 w-48
+                  bg-white border border-gray-200 shadow-lg
+                  opacity-0 invisible
+                  group-hover:opacity-100 group-hover:visible
+                  transition-all duration-200
+                  z-50
+                "
                   >
                     <ul className="py-2 text-sm text-gray-700">
                       <li>

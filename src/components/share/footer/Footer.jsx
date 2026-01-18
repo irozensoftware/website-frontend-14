@@ -151,7 +151,7 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="text-center mb-4 md:mb-0">
                 <p className="text-gray-400">
-                  Based in USA • All Rights © {currentYear} {aboutInfo?.data?.name}
+                   All Rights @  {currentYear} {aboutInfo?.data?.name}
                 </p>
               </div>
 

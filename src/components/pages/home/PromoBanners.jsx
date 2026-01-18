@@ -4,10 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function PromoBanners() {
-  const {data, error}=useGetMarketingProductQuery()
+  const {data}=useGetMarketingProductQuery()
   const marketingProduct=data?.data;
-  console.log(marketingProduct,'marketingProduct')
-  console.log(error,'error')
 
   return (
     <section className="container px-4 py-12">
