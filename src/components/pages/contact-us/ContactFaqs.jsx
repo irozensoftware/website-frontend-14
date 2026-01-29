@@ -1,31 +1,12 @@
 "use client";
+import { useGetFaqsQuery } from "@/redux/api/commonApi";
 import React, { useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
-const faqsDatas = [
-  {
-    id: 1,
-    question: "What kind of products does Mukit Ali LLC sell?",
-    ans: "We specialize in Amazon FBA wholesale and also provide a variety of products across major eCommerce marketplaces. All our products are authentic, high-quality, and sourced from trusted suppliers.",
-  },
-  {
-    id: 2,
-    question: "How do I place an order?",
-    ans: "You can place an order directly through our website or contact our sales team. We accept various payment methods and provide detailed order tracking for your convenience.",
-  },
-  {
-    id: 3,
-    question: "What is your return policy?",
-    ans: "We offer a 30-day return policy for most products. Items must be in original condition with all packaging. Please contact our customer service team to initiate a return.",
-  },
-  {
-    id: 4,
-    question: "Do you ship internationally?",
-    ans: "Yes, we ship to most countries worldwide. Shipping costs and delivery times vary by location. Contact us for specific international shipping rates and details.",
-  },
-];
-
 const ContactFaqs = () => {
   const [active, setActive] = useState(null);
+  const {data}=useGetFaqsQuery();
+  const faqsDatas=data?.data || [];
+  console.log("faqsDatas",faqsDatas);
 
   const toggleFaq = (id) => {
     setActive(active === id ? null : id);
@@ -57,7 +38,7 @@ const ContactFaqs = () => {
                 active === faq.id ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="px-6 pb-5 text-gray-600 text-sm leading-relaxed">
+              <div className="px-6 pb-5 pt-1 text-gray-600 text-sm leading-relaxed">
                 {faq.ans}
               </div>
             </div>

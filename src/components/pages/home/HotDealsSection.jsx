@@ -32,7 +32,7 @@ const HotDealsSection = () => {
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
             TODAY HOT DEALS
           </h2>
-          <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-primary-base mx-auto rounded-full" />
         </div>
 
         {/* Desktop Grid */}
@@ -78,7 +78,7 @@ const HotDealsSection = () => {
                   >
                     {product?.name}
                   </Link>
-                  <p className="text-2xl font-bold text-orange-500">
+                  <p className="text-2xl font-bold text-primary-base">
                     ${product?.base_price}
                   </p>
                 </div>
@@ -124,7 +124,7 @@ const HotDealsSection = () => {
                         <h3 className="text-lg font-semibold text-gray-900 mb-3">
                           {product?.name}
                         </h3>
-                        <p className="text-2xl font-bold text-orange-500">
+                        <p className="text-2xl font-bold text-primary-base">
                           ${product?.base_price}
                         </p>
                       </div>
@@ -162,7 +162,7 @@ const HotDealsSection = () => {
                 onClick={() => setCurrentSlide(index)}
                 className={`h-2 rounded-full transition-all ${
                   currentSlide === index
-                    ? "bg-orange-500 w-8"
+                    ? "bg-primary-base w-8"
                     : "bg-gray-300 w-2"
                 }`}
               />
@@ -172,7 +172,7 @@ const HotDealsSection = () => {
 
         {/* View All */}
         <div className="text-center">
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-semibold transition">
+          <button className="bg-primary-base cursor-pointer hover:opacity-80 text-white px-8 py-3 rounded-full font-semibold transition">
             VIEW ALL DEALS
           </button>
         </div>

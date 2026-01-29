@@ -40,7 +40,7 @@ const OrderList = () => {
               <td className="py-4 px-6">{order.invoice}</td>
               <td className="py-4 px-6 truncate">{moment(order?.created_at).format("DD MMM yyyy")}</td>
               <td className="py-4 px-6 capitalize">{order.status}</td>
-              <td className="py-4 px-6 text-orange-500">
+              <td className="py-4 px-6 text-primary-base">
                 ${Number(order.total).toFixed(2)}  
               </td>
               <td className="py-4 px-6">—</td>

@@ -119,6 +119,12 @@ export const commonApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+     getFaqs: build.query({
+      query: () => ({
+        url: `/faqs`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -141,5 +147,6 @@ export const {
   useGetConditionsQuery,
   useGetShoppingPolicyQuery,
   useGetPrivacyPolicyQuery,
-  useGetReturnAndRefundQuery
+  useGetReturnAndRefundQuery,
+  useGetFaqsQuery
 } = commonApi;

@@ -197,7 +197,7 @@ export default function ProductInfo({ product, relatedProduct }) {
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleAddToCard(product)}
-                    className="bg-primary-base text-sm font-semibold text-white px-4 py-3 rounded transition-all duration-300 ease-in-out hover:bg-orange-500  cursor-pointer hover:scale-105 shadow-md"
+                    className="bg-primary-base text-sm font-semibold text-white px-4 py-3 rounded transition-all duration-300 ease-in-out hover:bg-primary-base  cursor-pointer hover:scale-105 shadow-md"
                   >
                     Add to Cart
                   </button>

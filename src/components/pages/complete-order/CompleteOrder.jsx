@@ -111,7 +111,7 @@ export default function OrderComplete() {
                   </p>
                   <p className="text-sm text-gray-600 mb-1">{item?.notes}</p>
                 </div>
-                <p className="text-orange-500 font-semibold">${item?.total}</p>
+                <p className="text-primary-base font-semibold">${item?.total}</p>
               </div>
             </div>
           ))}
@@ -119,13 +119,13 @@ export default function OrderComplete() {
           {/* Subtotal */}
           <div className="flex border-gray-200 justify-between items-center py-3 border-b">
             <p className="font-semibold text-gray-900">Subtotal:</p>
-            <p className="text-orange-500 font-semibold">${orderInfo?.total}</p>
+            <p className="text-primary-base font-semibold">${orderInfo?.total}</p>
           </div>
 
           {/* Shipping */}
           <div className="flex justify-between items-center py-3 border-b border-gray-200">
             <p className="font-semibold text-gray-900">Shipping:</p>
-            <p className="text-orange-500 font-semibold">
+            <p className="text-primary-base font-semibold">
               ${orderInfo?.shipping_cost}
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function OrderComplete() {
           {/* Total */}
           <div className="flex justify-between items-center py-3 border-b  border-gray-200">
             <p className="font-semibold text-gray-900">Total:</p>
-            <p className="text-orange-500 font-bold text-xl">
+            <p className="text-primary-base font-bold text-xl">
               ${Number(orderInfo?.total) + Number(orderInfo?.shipping_cost)}
             </p>
           </div>

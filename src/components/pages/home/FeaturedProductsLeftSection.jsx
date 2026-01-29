@@ -104,7 +104,7 @@ const FeaturedProductsSection = () => {
 
                     {/* Price and Action */}
                     <div className="flex items-center justify-between mt-2">
-                      <p className="text-xl  font-bold text-orange-500">
+                      <p className="text-xl  font-bold text-primary-base">
                         ${product?.base_price}
                       </p>
                       <button className="bg-primary-base hover:bg-primary-base text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-300 shadow-md hover:shadow-lg">

@@ -24,7 +24,7 @@ const BeautyCareBanner = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Link
                   href={`/product/${topProdut?.slug}`}
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl uppercase tracking-wide"
+                  className="bg-primary-base hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl uppercase tracking-wide"
                 >
                   Buy Now
                 </Link>

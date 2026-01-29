@@ -93,7 +93,7 @@ const ContactUsPage = () => {
                 <label className="text-base">Your Message</label>
                 <textarea
                   placeholder="Write your message..."
-                  className="global-input rounded-[40px] p-4"
+                  className="global-input rounded p-4"
                   rows={5}
                 />
               </div>

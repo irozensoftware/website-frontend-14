@@ -47,21 +47,21 @@ export default function OrderSummaryCard({
         {/* Subtotal */}
         <div className="flex justify-between py-2 border-t text-base">
           <span className="font-semibold">Subtotal</span>
-          <span className="text-orange-500 font-semibold">${totalPrice}</span>
+          <span className="text-primary-base font-semibold">${totalPrice}</span>
         </div>
 
         {/* Shipping */}
         <div className="py-3 border-t text-base">
           <label className="flex justify-between items-center">
             <span>Flat rate</span>
-            <span className="text-orange-500">$15.00</span>
+            <span className="text-primary-base">$15.00</span>
           </label>
         </div>
 
         {/* Total */}
         <div className="flex justify-between py-3 border-t font-semibold text-lg">
           <span>Total</span>
-          <span className="text-orange-500">${total_price}</span>
+          <span className="text-primary-base">${total_price}</span>
         </div>
       </div>
 
@@ -117,7 +117,7 @@ export default function OrderSummaryCard({
       {/* Submit */}
       <button
         type="submit"
-        className="w-full cursor-pointer mt-6 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-full font-semibold"
+        className="w-full cursor-pointer mt-6 bg-primary-base hover:bg-orange-600 text-white py-3 rounded-full font-semibold"
       >
         {isLoading ? "Placing Order..." : "PLACE ORDER"}
       </button>
