@@ -11,7 +11,7 @@ export default function PromoBanners() {
     <section className="container px-4 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {
-          marketingProduct?.map((item,index)=> <div key={index} className="relative overflow-hidden rounded-xl bg-linear-to-r from-primary-muted to-[#26a53759]  min-h-65 flex items-center">
+          marketingProduct?.map((item,index)=> <div key={index} className="relative overflow-hidden rounded-xl bg-linear-to-r from-primary-muted to-[#26a53733]  min-h-65 flex items-center">
           <div className="pl-8 z-10">
             <p className="text-primary-base tracking-wider  uppercase text-sm font-semibold mb-2">
               {item?.name}

@@ -94,14 +94,16 @@ const ProductCard = ({ product, isActive, onHover, onLeave }) => {
       </div>
       {/* Product Title */}
       <Link href={`/product/${product?.slug}`}>
-        <h3 className="text-sm overflow-hidden text-center font-semibold hover:text-black-muted duration-300 cursor-pointer mt-3">
-          {product?.name}
+        <h3 className="text-sm text-center line-clamp-2 h-10 font-semibold hover:text-black-muted duration-300 cursor-pointer mt-3">
+          {product?.name?.length > 70
+            ? product.name.slice(0, 70) + "..."
+            : product.name}
         </h3>
       </Link>
 
       <Link
         href={`/product-category/${product?.category?.slug}`}
-        className="text-sm text-center block text-black-muted font-medium"
+        className="text-sm text-center  block text-black-muted font-medium"
       >
         {product?.category?.name}
       </Link>

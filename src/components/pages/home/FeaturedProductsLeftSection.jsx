@@ -20,13 +20,13 @@ const FeaturedProductsSection = () => {
             {/* Background Image */}
             <div className="absolute inset-0 overflow-hidden p-10">
               <Image
-                      width={350}
-                      height={350}
-                      src={
-                        product?.primary_image?.image
-                          ? `${process.env.NEXT_PUBLIC_API_URL}/storage/${product.primary_image.image}`
-                          : "/placeholder.png"
-                      }
+                width={350}
+                height={350}
+                src={
+                  product?.primary_image?.image
+                    ? `${process.env.NEXT_PUBLIC_API_URL}/storage/${product.primary_image.image}`
+                    : "/placeholder.png"
+                }
                 alt="Mobile Bag Background"
                 className="w-full h-64  object-cover transition-transform duration-500 hover:scale-110"
               />
@@ -40,11 +40,15 @@ const FeaturedProductsSection = () => {
                 <p className="text-sm sm:text-base text-white font-medium mb-2">
                   {product?.category?.name}
                 </p>
-                <h1 className=" text-lg md:text-3xl  font-bold text-white mb-4 leading-tight drop-shadow-lg">
-                 {product?.name}
+                <h1 className="text-lg md:text-3xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                  {product?.name?.split(" ").slice(0, 5).join(" ")}
+                  {product?.name?.split(" ").length > 5 && "…"}
                 </h1>
 
-                <Link  href={`/product/${product?.slug}`} className="bg-white mt-2 text-gray-800 font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <Link
+                  href={`/product/${product?.slug}`}
+                  className="bg-white mt-2 text-gray-800 font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
                   READ MORE
                 </Link>
               </div>

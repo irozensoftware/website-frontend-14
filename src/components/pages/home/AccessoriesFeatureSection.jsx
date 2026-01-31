@@ -61,7 +61,7 @@ export default function AccessoriesFeatureSection() {
           <FeaturedProductsSection />
         </div>
         <div className="flex-1">
-          <div className="flex items-center justify-between mb-4  border-b-2 border-gray-300">
+          <div className="flex items-center  justify-between mb-4  border-b-2 border-gray-300">
             <div className="flex items-center gap-6">
               <h2 className="text-xl uppercase font-semibold relative pb-2">
                 Accessories
