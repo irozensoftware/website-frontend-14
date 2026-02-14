@@ -79,7 +79,7 @@ const Footer = () => {
                   },
                   {
                     name: "Privacy Policy",
-                    path: "perivacy-policy",
+                    path: "privacy-policy",
                   },
                   {
                     name: "Terms-Conditions",
